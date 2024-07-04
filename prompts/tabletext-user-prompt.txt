@@ -1,0 +1,11 @@
+The following is a supplementary table data in markdown format. Please further iterate the phenotypic data of microorganisms according to the following table. Please merge the updated content into the original JSON result. Please follow the following rules during the extraction process:
+1. When the information extracted from the table conflicts with the original result, the table has a lower priority than the original result. When the above situation occurs, please describe the details in the `Evidence` module;
+2. Do not set the phenotypic value of the existing answer to `Unknown`. You almost only need to pay attention to the phenotypic items with `unknown` values ​​in the original JSON result;
+3. The table usually describes the information comparison of multiple strains. Please distinguish the strain object (Type Strain) described in the original result. The object of the information extracted from the table should be consistent with the Strain Name in the JSON result. If you are unsure, please select the first column of the table as the target strain;
+4. When the result extracted from the table is the same as the original JSON result, it is considered that there is no change. Please do not describe this situation repeatedly;
+5. After optimizing the results according to the table content, please put the corresponding evidence summarized into the `Evidence` module;
+6. Please do not output anything other than JSON.
+The current extraction results are as follows:
+{{current_result}}
+Please continue to iterate the above phenotype information according to the table content below:
+{{content}}
