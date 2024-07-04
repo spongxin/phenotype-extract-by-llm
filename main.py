@@ -22,7 +22,6 @@ parser.add_argument('--model', '-m', type=str, default='llama3-70b-8192', help='
 parser.add_argument('--history', '-t', type=str, default='.history', help='path to the directory containing chat history')
 args = parser.parse_args()
 
-logging.basicConfig(level=logging.INFO if args.verbose else logging.WARNING)
 
 # Create output\history directory
 output_dir = os.path.join(args.output, args.model)
@@ -38,7 +37,6 @@ if not os.path.exists(history_dir):
 filenames = [i for i in os.listdir(args.input) if i.endswith('.xml')]
 if not args.force:
     filenames = [i for i in filenames if not os.path.exists(os.path.join(output_dir, i.replace('.xml', '.txt')))]
-logging.warning(f"found {len(filenames)} files that need to be processed")
 
 # Load prompts
 prompts = Prompt(args.prompt).prompts
@@ -50,8 +48,10 @@ with open("api-keys.txt", "r", encoding='utf-8') as f:
 
 
 # Extract phenotype info from XML file
-def extract(filename: str, client: Groq):
+def extract(filename: str, client_id: int):
+    global clients
     results = [None, ]
+    client = clients[client_id]
     try:
         doc = Document(os.path.join(args.input, filename))
         paragraphs = doc.paragraph(min_length=1500)
@@ -93,14 +93,22 @@ def extract(filename: str, client: Groq):
         with open(os.path.join(history_dir, filename+'.pkl'), "wb") as f:
             pickle.dump(results, f)
 
-if __name__ == '__main__':
-    pool = Pool(len(clients))
+
+def assign_task():
+    global filenames, clients
+    if len(filenames) == 0 or len(clients) == 0:
+        return
+    pool = Pool(processes=len(clients))
     pbar = tqdm(total=len(filenames), desc="processing tasks")
     update = lambda *args: pbar.update()
-
+    error = lambda e: logging.error(e)
     for idx, filename in enumerate(filenames):
-        client = clients[idx % len(clients)]
-        pool.apply_async(extract, args=(filename, client), callback=update)
-    
+        client_id = idx % len(clients)
+        _ = pool.apply_async(extract, args=(filename, client_id), callback=update, error_callback=error)
     pool.close()
     pool.join()
+
+if __name__ == '__main__':
+    logging.basicConfig(level=logging.INFO if args.verbose else logging.WARNING)
+    logging.warning(f"assigning {len(filenames)} files to {len(clients)} tasks")
+    assign_task()
