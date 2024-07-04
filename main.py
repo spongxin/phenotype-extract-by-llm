@@ -95,7 +95,7 @@ def extract(filename: str, client: Groq):
 
 if __name__ == '__main__':
     pool = Pool(len(clients))
-    pbar = track(total=len(filenames), desc="processing tasks")
+    pbar = track(total=len(filenames), description="processing tasks")
     update = lambda *args: pbar.update()
 
     for idx, filename in enumerate(filenames):
