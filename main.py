@@ -1,8 +1,8 @@
-from rich.progress import track
 from multiprocessing import Pool
 from document import Document
 from prompt import Prompt
 from groq import Groq
+from tqdm import tqdm
 import argparse
 import logging
 import pickle
@@ -95,7 +95,7 @@ def extract(filename: str, client: Groq):
 
 if __name__ == '__main__':
     pool = Pool(len(clients))
-    pbar = track(total=len(filenames), description="processing tasks")
+    pbar = tqdm(total=len(filenames), desc="processing tasks")
     update = lambda *args: pbar.update()
 
     for idx, filename in enumerate(filenames):
