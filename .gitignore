@@ -1,5 +1,6 @@
 api-keys.txt
 .history/
+*.log
 output/
 input/
 test/

@@ -1,11 +1,10 @@
 from document import Document
 from prompt import Prompt
-from groq import Groq
+from client import Client
 from tqdm import tqdm
 import argparse
 import logging
 import pickle
-import time
 import os
 
 
@@ -37,7 +36,7 @@ if not os.path.exists(history_dir):
     os.makedirs(history_dir)
 
 
-# Load XML files
+# Load Input files
 filenames = [i for i in os.listdir(args.input) if i.endswith('.xml')]
 if not args.force:
     filenames = [i for i in filenames if not os.path.exists(os.path.join(output_dir, i.replace('.xml', '.txt')))]
@@ -47,12 +46,12 @@ filenames = filenames[:args.num]
 prompts = Prompt(args.prompt).prompts
 
 
-# Load API keys
-with open("api-keys.txt", "r", encoding='utf-8') as f:
-    api_keys = [key.strip() for key in f.readlines() if key.strip()]
+# Groq client assigner
+Client.interval_seconds = args.sleep
+clients = Client()
 
 
-def extract(filename: str, api_key: str, min_length: int = 3000, finetune: int = 3):
+def extract(filename: str, finetune: int, min_length: int = 3000):
     """
     Extract phenotype information from XML file
     
@@ -62,7 +61,6 @@ def extract(filename: str, api_key: str, min_length: int = 3000, finetune: int =
     :param finetune: int, number of finetune iterations
     """
     results = [None, ]
-    client = Groq(api_key=api_key)
     try:
         doc = Document(os.path.join(args.input, filename))
         paragraphs = doc.paragraph(min_length=min_length)
@@ -74,7 +72,7 @@ def extract(filename: str, api_key: str, min_length: int = 3000, finetune: int =
             content = prompts.get('fulltext-user-iter-prompt').replace("{{current_result}}", str(results[-1])).replace("{{content}}", paragraph)
             chats[-1] = {"role": "user", "content": content}
             logger.debug(f"request content: \n{content}\n")
-            resp = client.chat.completions.create(
+            resp = clients.get_aviliable_client().chat.completions.create(
                 model=args.model,
                 messages=chats,
                 temperature=0.1,
@@ -84,10 +82,9 @@ def extract(filename: str, api_key: str, min_length: int = 3000, finetune: int =
             if args.debug:
                 logger.debug(f"\n{results[-1]}\n")
                 input("Press Enter to continue...")
-            time.sleep(args.sleep)
         for ft in range(finetune):
             chats[-1] = {"role": "user", "content": prompts.get('fulltext-user-finetune-prompt') + str(results[-1])}
-            resp = client.chat.completions.create(
+            resp = clients.get_aviliable_client().chat.completions.create(
                 model=args.model,
                 messages=chats,
                 temperature=0.1,
@@ -111,19 +108,17 @@ def extract(filename: str, api_key: str, min_length: int = 3000, finetune: int =
 
 def assign_multithread_tasks():
     from concurrent.futures import ThreadPoolExecutor
-
-    global filenames, api_keys, args
-    if len(filenames) == 0 or len(api_keys) == 0:
+    if len(filenames) == 0:
         return
     pbar = tqdm(total=len(filenames), desc="processing tasks")
     update = lambda *args: pbar.update()
-    with ThreadPoolExecutor(max_workers=min(len(filenames), len(api_keys))) as pool:
-        for idx, filename in enumerate(filenames):
-            pool.submit(extract, filename, api_keys[idx % len(api_keys)]).add_done_callback(update)
+    with ThreadPoolExecutor(max_workers=min(len(filenames), clients.clients_num)) as pool:
+        for _, filename in enumerate(filenames):
+            pool.submit(extract, filename, args.finetune).add_done_callback(update)
+
 
 if __name__ == '__main__':
     logging.basicConfig(filename='.log', level=logging.INFO if args.verbose else logging.ERROR)
     if args.debug:
         logger.setLevel(logging.DEBUG)
-        api_keys = api_keys[:1]
     assign_multithread_tasks()
