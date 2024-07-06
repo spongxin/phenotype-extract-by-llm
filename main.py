@@ -15,12 +15,14 @@ parser.add_argument('--prompt', '-p', type=str, default='prompts', help='path to
 parser.add_argument('--output', '-o', type=str, default='output', help='path to the directory where to put the results(optional)')
 parser.add_argument('--force', '-f', action='store_true', help='force re-processing XML input files when output files already exist')
 parser.add_argument('--verbose', '-v', action='store_true', help='print information about processed files in the console')
-parser.add_argument('--sleep', '-s', type=int, default=30, help='time to sleep between each request')
+parser.add_argument('--sleep', '-s', type=int, default=60, help='time to sleep between each request')
 parser.add_argument('--model', '-m', type=str, default='llama3-70b-8192', help='model name to use for completion')
-parser.add_argument('--history', '-t', type=str, default='.history', help='path to the directory containing chat history')
+parser.add_argument('--history', type=str, default='.history', help='path to the directory containing chat history')
 parser.add_argument('--num', '-n', type=int, default=-1, help='number of files to process')
 parser.add_argument('--debug', '-d', action='store_true', help='print debug information in the console')
 parser.add_argument('--finetune', '-ft', type=int, default=3, help='number of finetune iterations')
+parser.add_argument('--length', '-l', type=int, default=2000, help='minimum length of the paragraph per request')
+parser.add_argument('-thread', '-t', type=int, default=1, help='number of threads to use')
 args = parser.parse_args()
 
 logger = logging.getLogger(__name__)
@@ -51,14 +53,13 @@ Client.interval_seconds = args.sleep
 clients = Client()
 
 
-def extract(filename: str, finetune: int, min_length: int = 3000):
+def extract(filename: str, finetune: int, min_length: int):
     """
     Extract phenotype information from XML file
     
     :param filename: str, name of the XML file
-    :param api_key: str, OpenAI API key
-    :param min_length: int, minimum length of the paragraph
     :param finetune: int, number of finetune iterations
+    :param min_length: int, minimum length of the paragraph
     """
     results = [None, ]
     try:
@@ -114,7 +115,7 @@ def assign_multithread_tasks():
     update = lambda *args: pbar.update()
     with ThreadPoolExecutor(max_workers=min(len(filenames), clients.clients_num)) as pool:
         for _, filename in enumerate(filenames):
-            pool.submit(extract, filename, args.finetune).add_done_callback(update)
+            pool.submit(extract, filename, args.finetune, args.length).add_done_callback(update)
 
 
 if __name__ == '__main__':
