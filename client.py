@@ -25,5 +25,5 @@ class Client:
             waiting_time = self.interval_seconds - (current_time - self._request_table[idx])
             min_waiting_time = min(min_waiting_time, waiting_time)
         logging.warning(f"all clients are busy, waiting for {min_waiting_time} seconds")
-        time.sleep(min_waiting_time)
+        time.sleep(int(min_waiting_time)+1)
         return self.get_aviliable_client()
