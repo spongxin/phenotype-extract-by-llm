@@ -26,7 +26,7 @@ You are a microbial scientist who can understand and analyze microbiology litera
     }, 
     "Physiology": {
         "Oxygen Requirement": "The microorganism respiration requires the use of oxygen or not. e.g. aerobic",
-        "Temperatures": "All temperatures in which it can grow, in degrees Celsius. e.g. [25.0-37.0, 22.0]. Value format: list object",
+        "Temperatures": "All temperatures in which it `can grow` rather than `no growth`, in degrees Celsius. e.g. [25.0-37.0, 22.0]. Value format: list object",
         "Optimal Temperature": "Optimal temperature value in degrees Celsius. e.g. 37.0",
         "Range_ph": "The range of pH for growth. e.g. 6.5-7.5", 
         "pH": "Optimum pH values. e.g. 6.5",
