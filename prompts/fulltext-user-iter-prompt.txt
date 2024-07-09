@@ -1,22 +1,21 @@
-Your goal is to continue to iteratively extract phenotypic information about microbial phenotypes (type strains) in [Result] based on the text I give you, The text to be extracted describes a newly discovered microbial species, which may involve phenotypic characteristics of different categories such as ecology, morphology, physiology, biochemistry, and enzymology. The following rules should be followed when extracting information:
-1. Please obtain information based entirely on the text provided, rather than fabricating or guessing;
-2. Any currently unknown phenotypic value should be marked as `unknown`.
-3. Please strictly follow the[Value format] output format in the phenotypic description if noted;
-4. When extracting phenotypic data, all corresponding original texts need to be saved in [Evidence] in full. Any phenotype value without [Evidence] will be considered as an extraction error;
-5. During the iteration process, the same phenotypic item may appear multiple times. Please fully consider both text given and text in [Evidence], to ensure the correctness and consistency of the phenotypic extraction;
-6. If there is a conflict in phenotypic values ​​during the iteration process, please modify the known phenotypic values ​​with caution, unless the original phenotypic value is `unknown` or there is evidence that the previous phenotypic value is wrong, then please update [evidence] after modifying the original phenotypic value;
-7. Please note that the text may mention multiple different strains. Please only extract `type strain`, which is usually consistent with [Strain Name] in the phenotype;
-8. Make sure that each original sentence related to the phenotype is enclosed in related [Evidence]. Any [Evidence] should be the `full original text`, not an abbreviation.;
-9. Please carefully check the phenotypic results you extracted to ensure that your conclusions are consistent with the text information , as well as meet the requirment of [Value Format];
-10. Note that some phenotypic values ​​have logical values, such as Cell Length should be greater than Cell Width; The values in [Positive] should not appear in [Negative] of one section;
-11. If no new information is found that would change the existing phenotypic values, no modification or explanation is required;
-12. The [Evidence] should include all the `complete sentences` from which you extracted the phenotype;
-13. Your output should only contain the JSON object and no other words;
-14. You should not change the JSON structure of [result];
-15. You cannot return an empty JSON result, even if all table type values ​​are `unknown`.
+Your goal is to iteratively extract the phenotypic data of the type strain in [result] based on the text I provide. The following rules should be followed when extracting information:
+- Please summarize the information based on the context, rather than making up numerical values;
+- If noted, please strictly follow the [Value format] output format in the phenotypic description;
+- For any sentence in the text, when there is a phenotype extracted based on the text or the extraction result is verified, please put the text in the [evidence] list of the corresponding phenotype;
+- When the latest text provided conflicts with the extracted phenotypic value, please determine the correct phenotypic value based on the corresponding [evidence] list;
+- Please note that the text may mention the names of multiple different strains, so please pay attention to distinguish the information describing `type strain`;
+- It is forbidden to delete the information in the [evidence] list, but to update the evidence by adding it at the end;
+- Pay attention to check the possible logic in the phenotypic value, such as the length of the cell should be greater than the width of the cell; items judged as [positive] should not be judged as [negative] again;
+- When there is no update to the phenotypic value in this iteration, no modification or explanation is required;
+- The JSON structure of [result] cannot be changed, and any specified items should be included in the JSON of the extraction result;
+- Any currently unknown phenotype value should be marked as `unknown` instead of missing the corresponding phenotype;
+- Please output a JSON object directly;
 The current extraction results are as follows:
+
 {{current_result}}
+
 Please continue to iterate the phenotype information in [Result] according to the text below:
+
 {{content}}
 
-Please review all requirements again and respond accordingly.
+Please double check all requirements and given [Result] JSON objects:

@@ -1,8 +1,8 @@
-You are a microbial scientist who can understand and analyze microbiology literature flawlessly to JSON, outputting no clues other than the JSON structure. The JSON schema of [result] should only include 
+You are a microbiologist who can perfectly understand and analyze the description of microorganisms and extract phenotypic information. You need to extract information according to the JSON format named [Result] below:
 {
     "Type Strain": {
-        "Strain Designation": "Type Strain's name without Species's name. e.g. 1389/90 T",
-        "Species": "The name of Type Strain's Species. e.g. Mycolicibacterium confluentis",
+        "Strain Designation": "Type Strain's name according to the International Nomenclature of Microorganisms. If there are other numbers, they need to be enclosed in parentheses. e.g. 1389/90T (DSM 16019; NCIMB 13994; VKM B-2247)",
+        "Species": "The name of Type Strain's Species including genus name and species name, with a blank between. e.g. Mycolicibacterium confluentis",
         "Evidence": "Reference to the original text for all phenotype in [Type Strain] section. Value format: list object"
     },
     "Ecology": {
@@ -11,46 +11,36 @@ You are a microbial scientist who can understand and analyze microbiology litera
         "Host disease": "The disease name caused by this train e.g. Hypersensitivity pneumonitis. e.g. chronic respiratory disease",
         "Country": "Country name where the sample for the microorganism was first collected e.g. Tunisia", 
         "Geographic Location Name": "The geographical origin of the sample as defined by the country or sea name followed by specific region name e.g. Hammam Biadha",
-        "Evidence": "Reference to the original text for all phenotype in [Ecology] section. Value format: list object"
+        "Evidence": "The reference text or your inference process of all phenotypic information in the [Ecology] section. Value format: list object"
     }, 
     "Morphology": {
         "Cell Shape": "The microorganism cell shape. e.g. rod-shaped",
-        "Cell Length": "Length range of the cell without unit, please convert to µm. e.g. 3.6-5.1",
-        "Cell Width": "Width range of the cell without unit, please convert to µm. [Cell width] should smaller than [Cell length].  e.g. 1.2-2.1",
+        "Cell Length": "Length range of the cell, please convert to µm. e.g. 3.6-5.1 µm",
+        "Cell Width": "Width range of the cell, please convert to µm. [Cell width] should smaller than [Cell length]. e.g. 1.2-2.1 µm",
         "Motility": "The ability of the microorganism to move independently, using metabolic energy e.g. motility choose true. Value format: + | - | unknown",
         "Colony Color": "The microorganism colony color. e.g. Saffron yellow",
         "Flagellum": "If the cell has flagellum. Value format: + | - | unknown",
         "Growth Rate": "The growth rate of microorganism e.g. rapidly growing",
         "Gram Stain": "Staining results used to differentiate bacterial species and classify them into two main groups: Gram-positive and Gram-negative. Value format: positive | negative | variable | unknown",
-        "Evidence": "Reference to the original text for all phenotype in [Morphology] section. Value format: list object"
+        "Evidence": "The reference text or your inference process of all phenotypic information in the [Morphology] section. Value format: list object"
     }, 
-    "Physiology": {
+    "Physiology and Metabolism": {
         "Oxygen Requirement": "The microorganism respiration requires the use of oxygen or not. e.g. aerobic",
-        "Temperatures": "All temperatures in which it `can grow` rather than `no growth`, in degrees Celsius. e.g. [25.0-37.0, 22.0]. Value format: list object",
-        "Optimal Temperature": "Optimal temperature value in degrees Celsius. e.g. 37.0",
-        "Range_ph": "The range of pH for growth. e.g. 6.5-7.5", 
-        "pH": "Optimum pH values. e.g. 6.5",
-        "Range_salt": "All salt concentrations in which it can grow. e.g. ['5% NaCl']. Value format: list object",
-        "Salt": "Optimal salt concentration in which it can grow. e.g. 5% NaCl",
-        "Antibiotic": {
-            "Sensitive": "List of antibiotics to which microorganisms are sensitive",
-            "Resistant": "List of antibiotics to which microorganisms are resistant",
-        },
-        "Carbon/Nitrogen Source": {
-            "Positive": "List the carbon sources and nitrogen sources can provide energy and build cell components. Value format: list object",
-            "Negative": "List the carbon sources and nitrogen sources can not provide energy and build cell components. e.g. [L-fucose, D-xylose, L-xylose Common carbon, nitrogen sources]. Value format: list object",
-            "Variable": "List the carbon sources and nitrogen sources which is mutable to provide energy and build cell components. Value format: list object"
-        },
-        "Spore Formation": "Ability of spore formation. Value format: + | - | unknown",
-        "Evidence": "Reference to the original text for all phenotype in [Physiology] section. Value format: list object"
+        "Culture Medium": "A growth medium or culture medium is a solid, liquid, or semi-solid designed to support the growth of a population of microorganisms or cells via the process of cell proliferation. e.g. MEDIUM K (DSMZ Medium 1122)",
+        "Temperatures": "All mentioned temperatures or temperature ranges (in degrees Celsius) and the corresponding growth states. Each piece of data should be packaged as a DICT object including `temperature` and `kind of temperature`. `kind of temperature` contains three states: growth, ungrowth and optimum. Value format: list object. e.g. [{'temperature': '10-37', 'kind of temperature': 'growth'}, {'temperature': '31', 'kind of temperature': 'optimum'}, {'temperature': '40', 'kind of temperature': 'ungrowth'}]",
+        "pH": "All mentioned pH or pH ranges and the corresponding growth states. Each piece of data should be packaged as a DICT object including `pH` and `kind of pH`. `kind of pH` contains three states: growth, ungrowth and optimum. Value format: list object. e.g. [{'pH': '5.5-8.5', 'kind of pH': 'growth'}, {'pH': '7', 'kind of pH': 'optimum'}]",
+        "Salt": "All mentioned salt concentrations and the corresponding growth states. Each piece of data should be packaged as a DICT object including `salt concentration` and `kind of concentration`. `kind of concentration` contains three states: growth, ungrowth and optimum. Value format: list object. e.g. [{'salt concentration': '5% NaCl', 'kind of concentration': 'growth'}]",
+        "Antibiotic": "All mentioned antibiotics and response of `type strain` to the antibiotics (sensitive or resistant). Each piece of data should be packaged as a DICT object including `antibiotic` and `antibiotic activity`. `antibiotic activity` contains two states: + | -. Value format: list object. e.g. [{'antibiotic': 'isoniazid', 'antibiotic activity': '+'}]",
+        "Carbon/Nitrogen Sourc": "All mentioned carbon or nitrogen sources and the ability of the `type strain` to obtain energy or build cell components with the carbon or nitrogen source (positive or negative). Each piece of data should be packaged as a DICT object including `C/N source` and `kind of C/N source`. `kind of C/N source` contains two states: + | -. Value format: list object. e.g. [{'C/N source': 'nitrate', 'kind of C/N source': '+'}, {'C/N source': 'd-xylose', 'kind of C/N source': '-'}]",
+        "Spore Formation": "Ability of spore formation (positive or negative). Value format: + | - | unknown",
+        "Enzymes": "All mentioned enzymes and the ability of `type strain` to synthesize the enzyme (positive or negative). Each piece of data should be packaged as a DICT object including `emzyme` and `enzyme activity`. `enzyme activity` contains two states: + | -. Value format: list object. e.g. [{'enzyme': 'catalase', 'enzyme activity': '+'}, {'enzyme': 'urease', 'enzyme activity': '-'}]",
+        "Evidence": "The reference text or your inference process of all phenotypic information in the [Physiology and Metabolism] section. Value format: list object"
     }, 
     "Biochemistry": {
-        "Nitrate Reduction": "A test used to detect the ability of an organism to reduce nitrate to nitrite using the enzyme nitrate reductase. Value format: + | - | unknown",
-        "Evidence": "Reference to the original text for all phenotype in [Biochemistry] section. Value format: list object"
-    }, 
-    "Enzymes": {
-        "Positive": "The list of enzyme, which are synthesized by microorganism and positive in activity. e.g. [acid phosphatase, amylase, caseinase]. Value format: list object",
-        "Negative": "The list of enzyme, which are synthesized by microorganism and negative in activity. e.g. [catalase, gelatinase, tween esterase]. Value format: list object",
-        "Evidence": "Reference to the original text for all phenotype in [Enzymes] section. Value format: list object"
+        "Nitrate Reduction": "The ability to reduce nitrate to nitrite. Value format: + | - | unknown",
+        "Indole Production": "The ability to produce indole. Value format: + | - | unknown"
+        "Evidence": "The reference text or your inference process of all phenotypic information in the [Biochemistry] section. Value format: list object"
     },
-}. Please `Do not` change or omit the JSON structure above!
+    
+}
+`Do not` change any structure in the JSON [Result], but extract information as described and required for all phenotypic items. When the phenotype value is uncertain, please set it to `unknown`.
