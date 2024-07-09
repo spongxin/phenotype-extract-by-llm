@@ -1,7 +1,7 @@
-Your goal is to check whether the following output meets the requirements. The following JSON [result] is the phenotypic information extracted from the description of the microbial phenotype. The structure of [result] should conform to the previous definition, and each phenotypic value of [result] should be consistent with the description in [evidence] under its module. You need to perform the following operations on the following JSON [result]:
-1. Check whether the JSON [result] fully complies with the previous output regulations. If not, please correct it. If it complies, do not make any changes;
-2. Check whether the value of each phenotype in the JSON [result] is consistent with the description in its [evidence] as well as the [Value Format], and correct the wrong phenotypic value extracted;
-3. For each module's [evidence], delete the entries that are not related to the extraction of any phenotype, and keep all entries related to the phenotype;
-4. The final output JSON [result] should contain all the items required by the previous JSON structure. Even if the values ​​of some items are unknown, please adjust the final output structure to fully meet the requirements;
-5. Output the final checked and corrected JSON [result] without explaination.
+Your goal is to check whether the output below meets the requirements. The following JSON [result] is the phenotypic information extracted from the microbial phenotypic description. The following JSON structure should conform to the definition of [result]. Each phenotypic value should be consistent with the description in [evidence] under the module. You need to do the following to the following JSON [result]:
+- Check whether the structure of JSON [result] fully complies with the provisions of [result]. If not, please correct it;
+- Check whether the value of each phenotype in JSON [result] is consistent with its description in [evidence] and meets the output format specified in [Value Format]. Update any content that can be optimized;
+- When the output result meets the requirements, return the JSON result directly;
+- Directly give the final JSON [result];
+
 The current JSON [result] is as follows:

@@ -16,7 +16,7 @@ parser.add_argument('--output', '-o', type=str, default='output', help='path to 
 parser.add_argument('--force', '-f', action='store_true', help='force re-processing XML input files when output files already exist')
 parser.add_argument('--verbose', '-v', action='store_true', help='print information about processed files in the console')
 parser.add_argument('--sleep', '-s', type=int, default=60, help='time to sleep between each request')
-parser.add_argument('--model', '-m', type=str, default='llama3-70b-8192', help='model name to use for completion')
+parser.add_argument('--model', '-m', type=str, default='llama3-70b-8192', help='model name to use for completion. One of the [llama3-8b-8192, llama3-70b-8192, mixtral-8x7b-32768, gemma-7b-it, gemma2-9b-it]')
 parser.add_argument('--history', type=str, default='.history', help='path to the directory containing chat history')
 parser.add_argument('--num', '-n', type=int, default=-1, help='number of files to process')
 parser.add_argument('--debug', '-d', action='store_true', help='print debug information in the console')
@@ -42,7 +42,7 @@ if not os.path.exists(history_dir):
 filenames = [i for i in os.listdir(args.input) if i.endswith('.xml')]
 if not args.force:
     filenames = [i for i in filenames if not os.path.exists(os.path.join(output_dir, i.replace('.xml', '.txt')))]
-filenames = filenames[:args.num]
+filenames = filenames[:args.num] if args.num > 0 else filenames
 
 # Load prompts
 prompts = Prompt(args.prompt).prompts
@@ -82,7 +82,7 @@ def extract(filename: str, finetune: int, min_length: int):
             logger.info(f"extracted {idx + 1} paragraphs from {doc.name}")
             if args.debug:
                 logger.debug(f"\n{results[-1]}\n")
-                input("Press Enter to continue...")
+                input("Press `Enter` to continue iter...")
         for ft in range(finetune):
             chats[-1] = {"role": "user", "content": prompts.get('fulltext-user-finetune-prompt') + str(results[-1])}
             resp = clients.get_aviliable_client().chat.completions.create(
@@ -94,7 +94,7 @@ def extract(filename: str, finetune: int, min_length: int):
             logger.info(f"{ft} finetuned of {doc.name}")
             if args.debug:
                 logger.debug(f"\n{results[-1]}\n")
-                input("Press Enter to continue...")
+                input("Press `Enter` to continue finetune...")
         with open(os.path.join(output_dir, doc.name+'.txt'), "w", encoding='utf-8') as f:
             f.write(results[-1])
         logger.info(f"saved output to {os.path.join(output_dir, doc.name+'.txt')}")
@@ -110,6 +110,7 @@ def extract(filename: str, finetune: int, min_length: int):
 def assign_multithread_tasks():
     from concurrent.futures import ThreadPoolExecutor
     if len(filenames) == 0:
+        logger.warn("no files input.")
         return
     pbar = tqdm(total=len(filenames), desc="processing tasks")
     update = lambda *args: pbar.update()
@@ -119,7 +120,11 @@ def assign_multithread_tasks():
 
 
 if __name__ == '__main__':
-    logging.basicConfig(filename='.log', level=logging.INFO if args.verbose else logging.ERROR)
     if args.debug:
-        logger.setLevel(logging.DEBUG)
-    assign_multithread_tasks()
+        logging.basicConfig(level=logging.DEBUG)
+        for idx, filename in enumerate(filenames):
+            logger.info(f"[{idx}]Debug {filename}")
+            extract(filename=filename, finetune=args.finetune, min_length=args.length)
+    else:
+        logging.basicConfig(filename='.log', level=logging.INFO if args.verbose else logging.ERROR)
+        assign_multithread_tasks()
