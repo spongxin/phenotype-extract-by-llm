@@ -1,6 +1,8 @@
 from groq import Groq
 import logging
 import time
+import json
+import re
 import os
 
 
@@ -27,3 +29,11 @@ class Client:
         logging.warning(f"all clients are busy, waiting for {min_waiting_time} seconds")
         time.sleep(int(min_waiting_time)+1)
         return self.get_aviliable_client()
+    
+    @staticmethod
+    def extract_json_data(query: str) -> dict:
+        try:
+            json_data = re.search(r'{.*}', query, re.DOTALL).group()
+            return json.loads(json_data)
+        except Exception as e:
+            logging.error(f"Error in extract_json_data: {e}")
