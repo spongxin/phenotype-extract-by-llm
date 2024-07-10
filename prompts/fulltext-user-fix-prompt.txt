@@ -1,0 +1,9 @@
+There were some problems when processing the output. You need to adjust the output according to the error message below and output it in the JSON structure described in [Result].
+
+The current output is as follows:
+{{current_result}}
+
+The error message encountered is as follows:
+{{error_message}}
+
+Please output the correct JSON [result] directly.

@@ -1,3 +1,4 @@
+from typing import Union
 from groq import Groq
 import logging
 import time
@@ -8,6 +9,7 @@ import os
 
 class Client:
     interval_seconds = 30
+    
     def __init__(self, api_keys_path: str = "api-keys.txt"):
         if not os.path.exists(api_keys_path):
             raise FileNotFoundError(f"API keys file not found: {api_keys_path}")
@@ -26,14 +28,14 @@ class Client:
                 return client
             waiting_time = self.interval_seconds - (current_time - self._request_table[idx])
             min_waiting_time = min(min_waiting_time, waiting_time)
-        logging.warning(f"all clients are busy, waiting for {min_waiting_time} seconds")
+        logging.warning(f"All clients are busy, waiting for {min_waiting_time} seconds")
         time.sleep(int(min_waiting_time)+1)
         return self.get_aviliable_client()
     
     @staticmethod
-    def extract_json_data(query: str) -> dict:
+    def extract_json_data(query: str) -> Union[dict, str]:
         try:
             json_data = re.search(r'{.*}', query, re.DOTALL).group()
             return json.loads(json_data)
         except Exception as e:
-            logging.error(f"Error in extract_json_data: {e}")
+            return f"The following error occurred when converting the output to JSON format:\n {e}"

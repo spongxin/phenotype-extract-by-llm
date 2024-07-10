@@ -5,6 +5,7 @@ from tqdm import tqdm
 import argparse
 import logging
 import pickle
+import json
 import os
 
 
@@ -97,7 +98,27 @@ def extract(filename: str, finetune: int, min_length: int):
                 input("Press `Enter` to continue finetune...")
         with open(os.path.join(output_dir, doc.name+'.txt'), "w", encoding='utf-8') as f:
             f.write(results[-1])
-        logger.info(f"saved output to {os.path.join(output_dir, doc.name+'.txt')}")
+        logger.info(f"saved text output to {os.path.join(output_dir, doc.name+'.txt')}")
+
+        extracted = Client.extract_json_data(results[-1])
+        while type(extracted) == str:
+            logger.warning(extracted)
+            chats[-1] = {"role": "user", "content": prompts.get('fulltext-user-fix-prompt').replace("{{current_result}}", str(results[-1])).replace("{{error_message}}", extracted)}
+            resp = clients.get_aviliable_client().chat.completions.create(
+                model=args.model,
+                messages=chats,
+                temperature=0.1,
+            )
+            results.append(resp.choices[0].message.content)
+            if args.debug:
+                logger.debug(f"\n{results[-1]}\n")
+                input("Press `Enter` to continue iter...")
+            extracted = Client.extract_json_data(results[-1])
+        if type(extracted) == dict:
+            with open(os.path.join(output_dir, doc.name+'.json'), "w", encoding='utf-8') as f:
+                f.write(json.dumps(extracted, indent=4))
+            logger.info(f"saved json output to {os.path.join(output_dir, doc.name+'.json')}")
+        
     
     except Exception as e:
         logger.error(f"{filename}: {e}")
