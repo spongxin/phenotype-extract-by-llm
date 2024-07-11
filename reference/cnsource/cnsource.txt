@@ -1,0 +1,871 @@
+(+)-cellobiose
+(+)-lactose
+(+)-maltose
+(+)-melezitose
+(+)-melibiose
+(+)-raffinose
+(+)-sucrose
+(+)-trehalose
+(+)-turanose
+(-)-melezitose
+1,2-propanediol
+1,3-butylene glycol
+1,3-propanediol
+1,4-butylene glycol
+1-butanol
+1-propanol
+2'-deoxyadenosine
+2,3-Butanediol
+2,3-butylene glycol
+2,3-propanediol
+2,4-dihydroxybenzoate
+2-deoxyadenosine
+2-deoxythymidine 5 ́-p-nitrophenyl phosphate
+2-deoxythymidine-5’-para-nitrophenyl-phosphate
+2-hyddroxyvalerate
+2-hydroxybenzoate
+2-hydroxybutyrate
+2-hydroxyvalerate
+2-ketobutyrate
+2-ketogluconate
+2-ketogluconate,5-ketogluconate
+2-ketoglutarate
+2-oxoglutarate
+2-oxovalerate
+2-propanol
+2’ deoxyadenosine
+3,4-dihydroxybenzoate
+3,5-dihydroxybenzoate
+3-Methyl Glucose
+3-Methyl glucose
+3-O-methyl-D-glucose
+3-aminobenzoate
+3-hydroxybenzoate
+3-hydroxybutyrate
+3-ketolactose
+3-methoxycinnamate
+3-methyl glucose
+3-methyl-glucose
+3-phenylpropionate
+4-Hydroxybenzoate
+4-aminobenzoate
+4-aminobutyrate
+4-hydroxybenzoate
+4-hydroxybutyrate
+4-hydroxyphenylacetate
+4-methoxycinnamate
+40
+40 and 60 )
+5-keto-D-gluconate
+5-ketogluconate
+60 and 80)，D-turanose
+Acetamide
+Acetate
+Acetic Acid
+Acetic acid
+Acetoacetic acid
+Adenine
+Adonitol
+Aesculin
+Amino acid
+Arabinose
+Azelate
+CO2
+CO2/NH3
+Cellobiose
+Citrate
+Citric Acid
+Citric acid
+D(+)-Glucose
+D(+)-Mannose
+D(+)-Trehalose
+D(-)-Fructose
+D(-)-Mannitol
+D-(+)-Glucose
+D-(+)-Mannose
+D-(+)-arabitol
+D-(+)-cellobiose
+D-(+)-fructose
+D-(+)-fucose
+D-(+)-galactose
+D-(+)-glucosamine
+D-(+)-glucose
+D-(+)-lactose
+D-(+)-malate
+D-(+)-maltose
+D-(+)-mannitol
+D-(+)-mannose
+D-(+)-melezitose
+D-(+)-melibiose
+D-(+)-raffinose
+D-(+)-rhamnose
+D-(+)-ribose
+D-(+)-sorbitol
+D-(+)-sorbose
+D-(+)-sucrose
+D-(+)-trehalose
+D-(+)-turanose
+D-(+)-xylose
+D-(-)-arabinose
+D-(-)-fructose
+D-(-)-fucose
+D-(-)-lyxose
+D-(-)-malate
+D-(-)-mannitol
+D-(-)-mannose
+D-(-)-melezitose
+D-(-)-raffinose
+D-(-)-rhamnose
+D-(-)-ribose
+D-(-)-sorbitol
+D-(-)-sucrose
+D-(-)-turanose
+D-3-H ydroxybwtyrate
+D-Arabitol
+D-Aspartic Acid
+D-Cellobiose
+D-Fructose
+D-Fructose 6-phosphate
+D-Fructose-6-PO4
+D-Fucose
+D-Galactos
+D-Galactose
+D-Galacturonic Acid
+D-Galacturonic acid
+D-Gluconic Acid
+D-Gluconic acid
+D-Glucose
+D-Glucose-6-PO4
+D-Glucuronic acid
+D-Lactate
+D-Lactic Acid Methyl Ester
+D-Malic Acid
+D-Malic acid
+D-Maltose
+D-Mannitol
+D-Mannose
+D-Melibiose
+D-Melibiose,β-Methyl-D-Glucoside
+D-Psicose
+D-Ribose
+D-Saccharic acid
+D-Salicin
+D-Serine
+D-Sorbitol
+D-Sucrose
+D-Trehalos
+D-Trehalose
+D-Xylose
+D-adonitol
+D-alanine
+D-amygdalin
+D-arabinose
+D-arabitol
+D-arginine
+D-aspartate
+D-aspartic acid
+D-cellobiose
+D-dulcitol
+D-erythritol
+D-erythrose
+D-erythrulose
+D-fructose
+D-fructose-6-PO4
+D-fructose-6-PO4,dextrin
+D-fructose-6-phosphate
+D-fructose-6P and glucuronamide
+D-fucose
+D-galactitol
+D-galactose
+D-galacturonate
+D-galacturonic acid
+D-gentiobiose
+D-glucitol
+D-glucitol (D-sorbitol)
+D-gluconate
+D-gluconic acid
+D-glucosaminate
+D-glucosamine
+D-glucosaminic acid
+D-glucose
+D-glucose 6-phosphate
+D-glucose- 6-PO4
+D-glucose-6-phophate
+D-glucose-6-phosphate
+D-glucuronate
+D-glucuronic acid
+D-glutamate
+D-glycerate
+D-glycerol
+D-histidine
+D-inositol
+D-lactate
+D-lactic acid methyl ester
+D-lactose
+D-lactulose
+D-leucine
+D-lysine
+D-lyxose
+D-malate
+D-malic acid
+D-maltitol
+D-maltose
+D-maltotriose
+D-mannitol
+D-mannose
+D-melezitose
+D-melibiose
+D-methionine
+D-phenylalanine
+D-proline
+D-psicose
+D-raffinose
+D-rhamnose
+D-ribose
+D-ribose,D-glucose
+D-ribose,D-sorbitol
+D-saccharate
+D-saccharic acid
+D-salicin
+D-salicintrehalose
+D-serine
+D-sorbitol
+D-sorbose
+D-sucrose
+D-tagatose
+D-tartrate
+D-threonine
+D-trehalose
+D-tryptophan
+D-turanose
+D-valine
+D-xylitol
+D-xylose
+D-xylose,L-xylose
+D-αglycerol phosphate
+DL-lactate
+DL-α-glycerol phosphate
+DL-αglycerol phosphate
+Dextrin
+Dulcitol
+Formic Acid
+Formic acid
+Fructose
+Gelatin
+Gentiobiose
+Glucose
+Glucuronamid
+Glutamate
+Glutarate
+Glycerol
+Glycogen
+Inosine
+Inositol
+Itaconate
+L- Alanine
+L- Arabinose
+L-(+)-arabinose
+L-(+)-lactate
+L-(+)-rhamnose
+L-(+)-sorbose
+L-(+)-tartrate
+L-(-)-arabitol
+L-(-)-fucose
+L-(-)-malate
+L-(-)-sorbose
+L-(-)-xylose
+L-3-H ydroxybwtyrate
+L-Alaninamide
+L-Alanine
+L-Alanyl glycine
+L-Arabinose
+L-Arginine
+L-Aspartic Acid
+L-Asparticacid
+L-Fucose
+L-Glutamic Acid
+L-Glutamic acid
+L-Histidine
+L-Isoleucine
+L-Lactate
+L-Lactic Acid
+L-Lactic acid
+L-Leucine
+L-Lysine
+L-Methionine
+L-Proline
+L-Proline-para-nitroanilide
+L-Pyro-glutamic Acid
+L-Pyroglutamic acid
+L-Rhamnose
+L-Serine
+L-Threonine
+L-Valine
+L-adonitol
+L-alaninamide
+L-alanine
+L-alanine-para-nitroanilide
+L-alanyl-glycine
+L-arabinose
+L-arabitol
+L-arbutine
+L-arginine
+L-arginine or L-tyrosine
+L-ascorbate
+L-asparagine
+L-aspartate
+L-aspartic acid
+L-cellobiose
+L-citrulline
+L-cysteine
+L-cystine
+L-dulcitol
+L-erythritol
+L-fructose
+L-fucose
+L-galactonic acid lactone
+L-galactonic acid-glactone
+L-galactonic acid-γ-lactone
+L-galactonicacid-glactone
+L-galactose
+L-glucose
+L-glutamate
+L-glutamate-γ-3-carboxy-para-nitroanilide
+L-glutamic acid
+L-glutamine
+L-glycerate
+L-histidine
+L-hydroxy-proline
+L-inositol
+L-isoleucine
+L-lactate
+L-lactic acid
+L-lactose
+L-leucine
+L-lysine
+L-lyxose
+L-malate
+L-malic acid
+L-maltose
+L-mannose
+L-melibiose
+L-methionine
+L-ornithine
+L-phenylalanine
+L-phenylalanine,L-alanine
+L-proline
+L-pyro-glutamic acid
+L-pyroglutamate
+L-pyroglutamic
+L-pyroglutamic acid
+L-raffinose
+L-rhammnose
+L-rhamnose
+L-ribose
+L-sarcosine
+L-serine
+L-serine,
+L-sorbitol
+L-sorbose
+L-tartrate
+L-threonine
+L-tryptophan
+L-turanose
+L-tyrosine
+L-valine
+L-xylose
+L-αglycerol phosphate
+LButyric Acid
+Lactose
+Maltitol
+Maltose
+Maltotriose
+Mannan
+Mannitol
+Mannose
+Methyl Pyruvate
+Mucic Acid
+N-Acetyl-D-Galactosamine
+N-Acetyl-D-Glucosamine
+N-Acetyl-D-glucosamine
+N-Acetyl-L-glutamic acid
+N-Acetyl-β-D-mannosamine
+N-Acetyl-β-DMannosamine
+N-AcetylNeuraminic Acid,α-D-Glucose
+N-acetyi-D-glucosamine
+N-acetyl D-galactosamine
+N-acetyl D-glucosamine
+N-acetyl neuraminic acid
+N-acetyl-D-galactosamine
+N-acetyl-D-glucosamine
+N-acetyl-b D-mannosamine
+N-acetyl-neuraminic acid
+N-acetyl-β-D-mannosamine
+N-acetyl-β-glucosamine
+N-acetyl-β-glucosaminidase
+N-acetylglucos-amine
+N-acetylglucosamine,glycerol
+N-acetylneuraminic acid
+NH3
+NaNO3
+Nitrate
+Nitrite
+Oxidase
+Palatinose
+Pectin
+Phenylacetate
+Phloroglucinol
+Propanol
+Propionic Acid
+Putrescine
+Pyruvate
+Quinic Acid
+Raffinose，L-Arabinose，D-Mannitol
+Salicin
+Salicylate
+Serine
+Sodium citrate
+Sodium fumarate
+Sodium glutamate
+Sodium malonate
+Sodium oxalate
+Sodium succinate
+Sorbitol
+Stachyose
+Suberate
+Succinamic acid
+Succinic acid
+Sucrose
+Tetrazolium blue
+Trehalose
+Trimethylene diamine
+Trimethylenediamine
+Turanose
+Tween
+Tween 20
+Tween 40
+Tween 40,γ-Amino-ButryricAcid,α-Hydroxy-Butyric Acid,β-Hydroxy-D,LButyricAcid,α-Keto-Butyric Acid
+Tween 80
+Tweens (20
+Urea
+Xanthine
+Xylitol
+Xylose
+a-keto-glutaric acid
+acetamide
+acetate
+acetic acid
+acetoacetate
+acetoacetic acid
+acetoin
+acetone
+aconitate
+acrylate
+adenosine
+adenosine 5'-monophosphate
+adenosine 5’-monophosphate
+adenosine 5′-monophosphate
+adipate
+adonitol
+adonitol,L-arabinose,i-erythritol,D-fructose,D-glucose
+aesculin
+agarose
+alaninamide
+alanine
+alginate
+allantoin
+amgdalin
+amygdalin
+amylopectin
+arabinose
+arabitol
+arbutin
+arbutine
+arginine
+ascorbate
+asparagine
+aspartate
+aspartic acid
+azelate
+b-gentiobiose
+beef extract
+benzamide
+benzoate
+betaine
+bicarbonate
+biotin
+bis-para-nitrophenyl-phosphate
+bromo-succinic acid
+bromosuccinate
+butanediol
+butanol
+butyrate
+butyric acid
+caprate
+caproate
+caprylate
+carboxymethylcellulose
+carnitine
+casamino acids
+casein
+catalase
+cellobiose
+cellose
+cellulose
+chitin
+chitosan
+choline
+cinnamate
+cis-Aconitate
+cis-aconitate
+citraconate
+citrate
+citric acid
+citrulline
+creatine
+creatinine
+crotonate
+cyclohexanol
+cysteine
+cystine
+dextran
+dextrin
+dimethylamine
+dodecyltrimethyl ammonium bromide,D-fructose-6-phosphate
+dulcitol
+dulicitol
+ellobiose
+erythritol
+erythrose
+erythrulose
+esterase (C4)
+esterase lipase (C8)
+ethanol
+ethanolamine
+ethylene glycol
+ferment glucose
+ferulate
+formaldehyde
+formamide
+formate
+fructose
+fucoidan
+fucose
+fumarate
+fusidic acid
+galactitol
+galactose
+galacturonate
+gallate
+gelatin
+gelatin， galactose
+gentiobiose
+gentiobiose,D-lyxose,D-tagatose,L-fucose,D-arabitol,L-arabitol
+gentisate
+gentobiose
+glucitol
+gluconate
+gluconate,i-inositol
+glucosaminate
+glucosamine
+glucose
+glucuronamide
+glucuronamide and α-keto-glutaric acid
+glucuronate
+glutamate
+glutamine
+glutarate
+glycerate
+glycerol
+glycine
+glycine proline
+glycine-proline
+glycogen
+glycolate
+glycyl L-aspartate
+glycyl L-glutamate
+glycyl L-glutamic acid
+glycyl L-proline
+glycyl-L-proline
+glyoxylate
+guanine
+heptanoate
+hippurate
+histamine
+histidine
+hydrolyse gelatin
+hydroquinone
+hydroxylamine
+hydroxyproline
+hypoxanthine
+i-Erythritol
+i-Inositol
+i-erythritol
+i-myo- inositol
+i-myo-Inositol
+i-myo-inositol
+inosine
+inositol
+inulin
+iso-inositol
+iso-myo-inositol
+isobutanol
+isobutyrate
+isocitrate
+isoleucine
+isovalerate
+itaconate
+keratin
+ketoglutarate
+lactamide
+lactate
+lactose
+lactulose
+laminarin
+lecithin
+leucine
+leucine arylamidase
+leucine arylamidasel
+levulinate
+lipase (C14)
+lysine
+lyxitol
+lyxose
+m-coumarate
+malate
+maleate
+malonate
+maltitol
+maltose
+maltotriose
+mannan
+mannitol
+mannose
+melezitose
+melibiose
+mesaconate
+meso-Inositol
+metabolised acetic acid
+methane
+methanol
+methionine
+methyl pyruvate
+methyl α-D-galactoside
+methyl α-D-glucoside
+methyl α-D-mannoside
+methyl β-D-galactoside
+methyl β-D-glucose
+methyl β-D-glucoside
+methyl β-D-xylose
+methyl β-L-sorbose
+methyl-D-glucoside
+methyla-D-gluco-pyranoside,N-acetylglucosamine
+methyla-D-mannopyranoside
+methylamine
+methylb-D-xylopyranoside
+methylb-xyloside
+methylpyruvate
+microcrystalline cellulose
+monoethanolamine
+monomethyl succinate
+mucate
+mucic acid
+myo-Inositol
+myo-erythritol
+myo-inositol
+n-acetyl-D-galactosamine
+n-acetyl-D-glucosamine
+n-acetyl-D-mannosamine
+n-acetyl-L-glutamate
+n-acetyl-galactosamine
+n-acetyl-glucosamine
+n-acetyl-neuraminate
+n-acetyl-β-D-mannosamine
+n-propanol
+naphthol-AS-BI-phosphohydrolase
+nicotinamide
+nicotinate
+nitrate
+nitrate,
+nitrite
+olive oil
+or acetoacetic acid
+ornithine
+oxalate
+oxaloacetate
+p-Hydroxy-Phenylacetic Acid
+p-aminosalicylate
+p-arbutine
+p-coumarate
+p-hydroxy-phenylacetic acid
+p-hydroxyphenylacetic acid
+p-nitrophenyl phosphorylcholine
+p-nitrophenyl β-D-xyloside
+palatinose
+para-nitrophenyl-β-D-galactopyranoside
+para-nitrophenyl-β-D-glucuronide
+pectin
+peptone
+phenol
+phenylacetate
+phenylacetic acid
+phenylalanine
+phenylethylamine
+phthalate
+pimelate
+polyethylene glycol
+potassium 2-ketogluconate
+potassium 5-ketogluconate
+potassium gluconate
+produce indole
+proline
+propanol
+propionate
+propionic acid
+propylene glycol
+protocatechuate
+psicose
+pullulan
+putrescine
+pyrazinamide
+pyrocatechol
+pyrogallol
+pyroglutamate
+pyruvate
+quinate
+quinic acid
+raffinose
+reduce nitrate
+resorcinol
+rhamnose
+ribose
+ribose,xylose
+saccharate
+salicin
+salicine
+salicylate
+sarcosine
+sebacate
+sedoheptulosan
+serine
+shikimate
+sodium acetate
+sodium butyrate
+sodium butyrate but not amino acids
+sodium citrate
+sodium fumarate
+sodium gluconate
+sodium hippurate
+sodium malonate
+sodium oxalate
+sodium pyruvate
+sodium succinate
+sorbitol
+sorbose
+spermidine
+spermine
+stachyose
+starch
+suberate
+succinamate
+succinamide
+succinate
+sucrose
+syringate
+tagatose
+tartrate
+terephthalate
+testosterone
+thiamine
+threonine
+thymidine
+thymidine 5'-monophosphate
+thymidine 5’ monophosphate
+thymidine 5′-monophosphate
+thymine
+toluene
+trans-aconitate
+trehalose
+trehalose and xylose
+tricarballylate
+trigonelline
+trimethoxybenzoate
+trimethyelene diamine
+trimethylamine
+trimethylendiamine
+trimethylenediamine
+trisodium citrate
+trypsin
+tryptamine
+tryptone
+tryptophan
+turanose
+turanose,D-fucose
+tween 20
+tween 40
+tween 60
+tween 80
+tyrosine
+uracil
+urea
+urease
+uridine
+uridine 5'-monophosphate
+uridine 5’-monophosphate
+uridine 5′-monophosphate
+urocanate
+valerate
+valine
+valine arylamidase
+xanthan
+xanthine
+xylan
+xylitol
+xylose
+yeast extract
+α-D-Glucose
+α-D-fructose
+α-D-glucose
+α-D-glucose 1-phosphate
+α-D-lactose
+α-D-lactulose
+α-D-melezitose
+α-D-melibiose
+α-Hydroxybutyric acid
+α-Ketovaleric acid
+α-L-fucose
+α-L-rhamnose
+α-cyclodextrin
+α-cyclodextrin or β-cyclodextrin
+α-hydroxy-butyric acid
+α-hydroxy-butyricacid， α-keto-butyricacid， Propionic Acid
+α-hydroxybutyric acid
+α-keto-Butyric acid
+α-keto-butyric acid
+α-keto-glutaric acid
+α-ketovalerate
+α-lactose
+α-lyxose
+α-melibiose
+α-methyl-D-glucoside
+α-trehalose
+β-D-fructose
+β-Hydroxy-D
+β-Methyl-D-Glucoside
+β-alanine
+β-cyclodextrin
+β-gentiobiose
+β-hydroxy-butyric acid
+β-hydroxybutyric acid
+β-lactose
+β-methyl D-glucoside
+β-methyl-D-glucoside
+β-methyl-D-xylopyranoside
+β-methyl-D-xyloside
+β-methyl-xyloside
+β-trehalose
+γ-Hydroxybutyric acid
+γ-amino-butryric acid
+γ-amino-n-butyric acid
+γ-hydroxybutyric acid
+ϒ-amino-n-butyric acid
