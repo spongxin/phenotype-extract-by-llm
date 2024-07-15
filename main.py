@@ -54,7 +54,7 @@ Client.interval_seconds = args.sleep
 clients = Client()
 
 
-def extract(filename: str, finetune: int, min_length: int):
+def extract(filename: str, finetune: int, min_length: int, max_fix: int = 5):
     """
     Extract phenotype information from XML file
     
@@ -84,14 +84,16 @@ def extract(filename: str, finetune: int, min_length: int):
             if args.debug:
                 logger.debug(f"\n{results[-1]}\n")
                 input("Press `Enter` to continue iter...")
+        chats = chats[:-1]
         for ft in range(finetune):
-            chats[-1] = {"role": "user", "content": prompts.get('fulltext-user-finetune-prompt') + str(results[-1])}
+            chats.append({"role": "user", "content": prompts.get('fulltext-user-finetune-prompt') + str(results[-1])})
             resp = clients.get_aviliable_client().chat.completions.create(
                 model=args.model,
                 messages=chats,
                 temperature=0.1,
             )
             results.append(resp.choices[0].message.content)
+            chats.append({"role": "assistant", "content": resp.choices[0].message.content})
             logger.info(f"{ft} finetuned of {doc.name}")
             if args.debug:
                 logger.debug(f"\n{results[-1]}\n")
@@ -101,19 +103,21 @@ def extract(filename: str, finetune: int, min_length: int):
         logger.info(f"saved text output to {os.path.join(output_dir, doc.name+'.txt')}")
 
         extracted = Client.extract_json_data(results[-1])
-        while type(extracted) == str:
+        while type(extracted) == str and max_fix > 0:
             logger.warning(extracted)
-            chats[-1] = {"role": "user", "content": prompts.get('fulltext-user-fix-prompt').replace("{{current_result}}", str(results[-1])).replace("{{error_message}}", extracted)}
+            chats.append({"role": "user", "content": prompts.get('fulltext-user-fix-prompt').replace("{{current_result}}", str(results[-1])).replace("{{error_message}}", extracted)})
             resp = clients.get_aviliable_client().chat.completions.create(
                 model=args.model,
                 messages=chats,
                 temperature=0.1,
             )
             results.append(resp.choices[0].message.content)
+            chats.append({"role": "assistant", "content": resp.choices[0].message.content})
+            extracted = Client.extract_json_data(results[-1])
             if args.debug:
                 logger.debug(f"\n{results[-1]}\n")
-                input("Press `Enter` to continue iter...")
-            extracted = Client.extract_json_data(results[-1])
+                input("Press `Enter` to continue fix...\n" + extracted)
+            max_fix -= 1
         if type(extracted) == dict:
             with open(os.path.join(output_dir, doc.name+'.json'), "w", encoding='utf-8') as f:
                 f.write(json.dumps(extracted, indent=4))
@@ -138,14 +142,18 @@ def assign_multithread_tasks():
     with ThreadPoolExecutor(max_workers=min(len(filenames), clients.clients_num)) as pool:
         for _, filename in enumerate(filenames):
             pool.submit(extract, filename, args.finetune, args.length).add_done_callback(update)
+    pbar.close()
 
 
 if __name__ == '__main__':
+    logging.basicConfig(filename='.log', level=logging.ERROR)
+
     if args.debug:
-        logging.basicConfig(level=logging.DEBUG)
+        logging.basicConfig(level=logging.ERROR)
+        logger.setLevel(level=logging.DEBUG)
         for idx, filename in enumerate(filenames):
             logger.info(f"[{idx}]Debug {filename}")
             extract(filename=filename, finetune=args.finetune, min_length=args.length)
     else:
-        logging.basicConfig(filename='.log', level=logging.INFO if args.verbose else logging.ERROR)
+        logger.setLevel(logging.INFO if args.verbose else logging.ERROR)
         assign_multithread_tasks()
