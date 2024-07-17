@@ -10,9 +10,7 @@ class GroqClient:
     """
     Groq api-service client
     """
-
     interval_seconds = 30
-    
     def __init__(self, api_keys_path: str = "api-keys.txt"):
         from groq import Groq
 
@@ -45,5 +43,14 @@ class GroqClient:
         except Exception as e:
             return f"The following error occurred when converting the output to JSON format:\n {e}"
 
-class LocalClient:
-    url = "http://localhost:8086"
+class OpenAIClient:
+    def __init__(self, url: str = "http://localhost:8086"):
+        from openai import OpenAI
+
+        self.client = OpenAI(
+            base_url=self.url,
+        )
+        self.clients_num = 1
+    
+    def get_aviliable_client(self):
+        return self.client
