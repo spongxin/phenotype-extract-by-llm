@@ -1,6 +1,6 @@
 from document import Document
 from prompt import Prompt
-from client import GroqClient
+from client import GroqClient, OpenAIClient
 from tqdm import tqdm
 import argparse
 import logging
@@ -16,14 +16,13 @@ parser.add_argument('--prompt', '-p', type=str, default='prompts', help='path to
 parser.add_argument('--output', '-o', type=str, default='output', help='path to the directory where to put the results(optional)')
 parser.add_argument('--force', '-f', action='store_true', help='force re-processing XML input files when output files already exist')
 parser.add_argument('--verbose', '-v', action='store_true', help='print information about processed files in the console')
-parser.add_argument('--sleep', '-s', type=int, default=60, help='time to sleep between each request')
-parser.add_argument('--model', '-m', type=str, default='llama3-70b-8192', help='model name to use for completion. One of the [llama3-8b-8192, llama3-70b-8192, mixtral-8x7b-32768, gemma-7b-it, gemma2-9b-it]')
+parser.add_argument('--model', '-m', type=str, default='llama3-70b-8192', help='model name to use for completion. One of the [Meta-Llama-3-70B-Instruct(local), llama3-8b-8192, llama3-70b-8192, mixtral-8x7b-32768, gemma-7b-it, gemma2-9b-it]')
 parser.add_argument('--history', type=str, default='.history', help='path to the directory containing chat history')
 parser.add_argument('--num', '-n', type=int, default=-1, help='number of files to process')
 parser.add_argument('--debug', '-d', action='store_true', help='print debug information in the console')
 parser.add_argument('--finetune', '-ft', type=int, default=3, help='number of finetune iterations')
+parser.add_argument('--fix', '-fx', type=int, default=5, help='max number of fix iterations')
 parser.add_argument('--length', '-l', type=int, default=2000, help='minimum length of the paragraph per request')
-parser.add_argument('-thread', '-t', type=int, default=1, help='number of threads to use')
 parser.add_argument('--host', '-hs', type=int, default=None, help='local host of llm service')
 args = parser.parse_args()
 
@@ -52,11 +51,13 @@ prompts = Prompt(args.prompt).prompts
 
 if args.host is None:
     # Groq client assigner
-    GroqClient.interval_seconds = args.sleep
     clients = GroqClient()
+else:
+    # vLLM client assigner
+    clients = OpenAIClient(url=f"http://localhost:{args.host}")
 
 
-def extract(filename: str, finetune: int, min_length: int, max_fix: int = 5):
+def extract(filename: str, finetune: int, min_length: int, max_fix: int):
     """
     Extract phenotype information from XML file
     
@@ -124,8 +125,9 @@ def extract(filename: str, finetune: int, min_length: int, max_fix: int = 5):
             with open(os.path.join(output_dir, doc.name+'.json'), "w", encoding='utf-8') as f:
                 f.write(json.dumps(extracted, indent=4))
             logger.info(f"saved json output to {os.path.join(output_dir, doc.name+'.json')}")
+        else:
+            logger.warn(f"failed parse json from {os.path.join(output_dir, doc.name+'.txt')}")
         
-    
     except Exception as e:
         logger.error(f"{filename}: {e}")
     
@@ -136,6 +138,7 @@ def extract(filename: str, finetune: int, min_length: int, max_fix: int = 5):
 
 def assign_multithread_tasks():
     from concurrent.futures import ThreadPoolExecutor
+    
     if len(filenames) == 0:
         logger.warn("no files input.")
         return
@@ -143,7 +146,7 @@ def assign_multithread_tasks():
     update = lambda *args: pbar.update()
     with ThreadPoolExecutor(max_workers=min(len(filenames), clients.clients_num)) as pool:
         for _, filename in enumerate(filenames):
-            pool.submit(extract, filename, args.finetune, args.length).add_done_callback(update)
+            pool.submit(extract, filename, args.finetune, args.length, args.fix).add_done_callback(update)
     pbar.close()
 
 
