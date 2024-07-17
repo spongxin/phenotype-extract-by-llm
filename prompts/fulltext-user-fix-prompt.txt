@@ -1,4 +1,11 @@
-There were some problems when processing the output. You need to adjust the output according to the error message below and output it in the JSON structure described in [Result].
+There are some problems with the current JSON format output. Your task is to check the format of the output below according to the standard JSON format. Please pay attention to the following issues:
+- Please check the output JSON format from the beginning to ensure that the JSON result complies with the provisions for [Result];
+- Please ensure that the modified output complies with the standard JSON parsing format;
+- Any item of the output JSON data should be consistent with the required output format in the regulations;
+- Based on the error message below, infer the possible cause of the error, and check from the beginning to see if there are similar errors, and correct them all;
+- Please do not limit yourself to the errors mentioned in the error message, but check the format errors comprehensively and correct them so that JSON data can be used correctly in the program;
+- Unless there are unfixable errors, please give priority to modifying the format of the content instead of deleting it all;
+- Please pay special attention to format parsing errors caused by special symbols. For example, extra quotation marks in the content enclosed in quotation marks will cause JSON parsing to fail. In this case, you can change the extra quotation marks to single quotation marks or Chinese quotation marks to solve the error;
 
 The current output is as follows:
 {{current_result}}
@@ -6,4 +13,4 @@ The current output is as follows:
 The error message encountered is as follows:
 {{error_message}}
 
-Please output the correct JSON [result] directly.
+Please directly output the correct JSON format [result].

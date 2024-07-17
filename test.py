@@ -1,5 +1,5 @@
-from client import Client
-from control import QualityControl
+from client import GroqClient
+from control import ItemsControl
 import unittest
 import os
 
@@ -11,7 +11,7 @@ class TestJsonExtract(unittest.TestCase):
     def test_get_aviliable_json(self):
         for filename in [i for i in os.listdir(self.resdir) if i.endswith('.txt')]:
             with open(os.path.join(self.resdir, filename), 'r', encoding='utf-8') as f:
-                data = Client.extract_json_data(f.read())
+                data = GroqClient.extract_json_data(f.read())
                 self.assertTrue(data is not None)
 
 
@@ -28,9 +28,10 @@ class TestQualityControl(unittest.TestCase):
             'glucose-6-phosphate dehydrogenase',
             '6-phosphogluconate dehydrogenase',
             'phosphoenolpyruvate carboxylase',
-            'glutamate dehydrogenase'
+            'glutamate dehydrogenase',
+            'genome-polyprotein-b',
         ]
-        candidates = QualityControl.control_enzyme_list(enzyme_list)
+        candidates = ItemsControl.control_enzyme_list(enzyme_list)
         for e, c in zip(enzyme_list, candidates):
             print(f'{e} -> {c}')
 

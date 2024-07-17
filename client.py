@@ -1,5 +1,4 @@
 from typing import Union
-from groq import Groq
 import logging
 import time
 import json
@@ -7,10 +6,16 @@ import re
 import os
 
 
-class Client:
+class GroqClient:
+    """
+    Groq api-service client
+    """
+
     interval_seconds = 30
     
     def __init__(self, api_keys_path: str = "api-keys.txt"):
+        from groq import Groq
+
         if not os.path.exists(api_keys_path):
             raise FileNotFoundError(f"API keys file not found: {api_keys_path}")
         with open(api_keys_path, "r", encoding='utf-8') as f:
@@ -19,7 +24,7 @@ class Client:
         self._request_table = {idx: None for idx in range(len(self._clients))}
         self.clients_num = len(self._clients)
     
-    def get_aviliable_client(self) -> Groq:
+    def get_aviliable_client(self):
         min_waiting_time = self.interval_seconds
         current_time = time.time()
         for idx, client in enumerate(self._clients):
@@ -39,3 +44,6 @@ class Client:
             return json.loads(json_data)
         except Exception as e:
             return f"The following error occurred when converting the output to JSON format:\n {e}"
+
+class LocalClient:
+    url = "http://localhost:8086"

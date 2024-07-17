@@ -1,7 +1,13 @@
 Your goal is to check whether the output below meets the requirements. The following JSON [result] is the phenotypic information extracted from the microbial phenotypic description. The following JSON structure should conform to the definition of [result]. Each phenotypic value should be consistent with the description in [evidence] under the module. You need to do the following to the following JSON [result]:
 - Check whether the structure of JSON [result] fully complies with the provisions of [result]. If not, please correct it;
 - Check whether the value of each phenotype in JSON [result] is consistent with its description in [evidence] and meets the output format specified in [Value Format]. Update any content that can be optimized;
+- Please check the extracted phenotypic values ​​for consistency with [Evidence] and correct any data that may be fabricated or inconsistent with the facts.
 - When the output result meets the requirements, return the JSON result directly;
+- No omissions or ellipsis may appear in any part, no part may be replaced by ellipsis;
+- Items in [Evidence] that have never been used should be deleted;
+- The data format of the table type value must be consistent with the regulations;
+- JSON data should not contain special symbols and content that may cause JSON parsing failure. For example, incorrect double quotes " in a list result may cause list parsing failure;
+- Please pay special attention to avoid format parsing errors caused by special symbols. For example, extra quotation marks in the content enclosed by quotation marks will cause JSON parsing to fail. In this case, the extra quotation marks can be changed to single quotation marks or Chinese quotation marks;
 - Directly give the final JSON [result];
 
 The current JSON [result] is as follows:

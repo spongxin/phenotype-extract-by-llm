@@ -9,6 +9,7 @@ Your goal is to iteratively extract the phenotypic data of the type strain in [r
 - When there is no update to the phenotypic value in this iteration, no modification or explanation is required;
 - The JSON structure of [result] cannot be changed, and any specified items should be included in the JSON of the extraction result;
 - Any currently unknown phenotype value should be marked as `unknown` instead of missing the corresponding phenotype;
+- Prevent nested double quotes within double quotes, which would cause list parse errors e.g. ["Thermophilic grow at 55 "C."], change into ["Thermophilic grow at 55 C."];
 - Please output a JSON object directly;
 The current extraction results are as follows:
 

@@ -1,6 +1,6 @@
 from document import Document
 from prompt import Prompt
-from client import Client
+from client import GroqClient
 from tqdm import tqdm
 import argparse
 import logging
@@ -24,6 +24,7 @@ parser.add_argument('--debug', '-d', action='store_true', help='print debug info
 parser.add_argument('--finetune', '-ft', type=int, default=3, help='number of finetune iterations')
 parser.add_argument('--length', '-l', type=int, default=2000, help='minimum length of the paragraph per request')
 parser.add_argument('-thread', '-t', type=int, default=1, help='number of threads to use')
+parser.add_argument('--host', '-hs', type=int, default=None, help='local host of llm service')
 args = parser.parse_args()
 
 logger = logging.getLogger(__name__)
@@ -49,9 +50,10 @@ filenames = filenames[:args.num] if args.num > 0 else filenames
 prompts = Prompt(args.prompt).prompts
 
 
-# Groq client assigner
-Client.interval_seconds = args.sleep
-clients = Client()
+if args.host is None:
+    # Groq client assigner
+    GroqClient.interval_seconds = args.sleep
+    clients = GroqClient()
 
 
 def extract(filename: str, finetune: int, min_length: int, max_fix: int = 5):
@@ -102,7 +104,7 @@ def extract(filename: str, finetune: int, min_length: int, max_fix: int = 5):
             f.write(results[-1])
         logger.info(f"saved text output to {os.path.join(output_dir, doc.name+'.txt')}")
 
-        extracted = Client.extract_json_data(results[-1])
+        extracted = GroqClient.extract_json_data(results[-1])
         while type(extracted) == str and max_fix > 0:
             logger.warning(extracted)
             chats.append({"role": "user", "content": prompts.get('fulltext-user-fix-prompt').replace("{{current_result}}", str(results[-1])).replace("{{error_message}}", extracted)})
@@ -113,7 +115,7 @@ def extract(filename: str, finetune: int, min_length: int, max_fix: int = 5):
             )
             results.append(resp.choices[0].message.content)
             chats.append({"role": "assistant", "content": resp.choices[0].message.content})
-            extracted = Client.extract_json_data(results[-1])
+            extracted = GroqClient.extract_json_data(results[-1])
             if args.debug:
                 logger.debug(f"\n{results[-1]}\n")
                 input("Press `Enter` to continue fix...\n" + extracted)
