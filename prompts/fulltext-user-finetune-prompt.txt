@@ -11,3 +11,8 @@ Your goal is to check whether the output below meets the requirements. The follo
 - Directly give the final JSON [result];
 
 The current JSON [result] is as follows:
+{{current_result}}
+
+Please directly output the correct JSON format [result].
+
+{

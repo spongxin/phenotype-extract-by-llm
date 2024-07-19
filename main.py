@@ -89,7 +89,7 @@ def extract(filename: str, finetune: int, min_length: int, max_fix: int):
                 input("Press `Enter` to continue iter...")
         chats = chats[:-1]
         for ft in range(finetune):
-            chats.append({"role": "user", "content": prompts.get('fulltext-user-finetune-prompt') + str(results[-1])})
+            chats.append({"role": "user", "content": prompts.get('fulltext-user-finetune-prompt').replace("{{current_result}}", str(results[-1]))})
             resp = clients.get_aviliable_client().chat.completions.create(
                 model=args.model,
                 messages=chats,
@@ -130,6 +130,8 @@ def extract(filename: str, finetune: int, min_length: int, max_fix: int):
         
     except Exception as e:
         logger.error(f"{filename}: {e}")
+        if args.debug:
+            input("Press `Enter` to jump error...\n")
     
     finally:
         with open(os.path.join(history_dir, filename+'.pkl'), "wb") as f:
@@ -151,14 +153,13 @@ def assign_multithread_tasks():
 
 
 if __name__ == '__main__':
-    logging.basicConfig(filename='.log', level=logging.ERROR)
-
     if args.debug:
         logging.basicConfig(level=logging.ERROR)
         logger.setLevel(level=logging.DEBUG)
         for idx, filename in enumerate(filenames):
             logger.info(f"[{idx}]Debug {filename}")
-            extract(filename=filename, finetune=args.finetune, min_length=args.length)
+            extract(filename, args.finetune, args.length, args.fix)
     else:
+        logging.basicConfig(filename='.log', level=logging.ERROR)
         logger.setLevel(logging.INFO if args.verbose else logging.ERROR)
         assign_multithread_tasks()

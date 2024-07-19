@@ -64,4 +64,7 @@ You are a microbiologist who can perfectly understand and analyze the descriptio
     ],
     "Type Strains Number": "The number of Type Strains identified, must be consistent with the length of the above list [Type Strains]. Value Format: int",
 }
-`Do not` change any structure in the JSON [Result], but extract information as described and required for all phenotypic items. When the phenotype value is uncertain, please set it to `unknown`. Please maintain the original parsability of all output formats that are `list`, and avoid incorrect use of symbols that make the list format unusable in the program.
+`Do not` change any structure in the JSON [Result], but extract information as described and required for all phenotypic items. 
+When the phenotype value is uncertain, please set it to `unknown`. 
+Please maintain the original parsability of all output formats that are `list`, and avoid incorrect use of symbols that make the list format unusable in the program. 
+For data [Value Format] is `list object`, please do not fill in with items contain `unknown`.

@@ -1,4 +1,5 @@
 from typing import Union
+from openai import OpenAI
 import logging
 import time
 import json
@@ -44,13 +45,19 @@ class GroqClient:
             return f"The following error occurred when converting the output to JSON format:\n {e}"
 
 class OpenAIClient:
-    def __init__(self, url: str = "http://localhost:8086"):
-        from openai import OpenAI
+    def __init__(self, url: str = "http://localhost:8086/v1", api_key: str = 'EMPTY'):
+        
 
         self.client = OpenAI(
-            base_url=self.url,
+            base_url=url,
+            api_key=api_key,
         )
         self.clients_num = 1
-    
-    def get_aviliable_client(self):
-        return self.client
+
+    def chat(self, model: str, messages: list, temperature: float = 0.1, stop: list = ['<|eot_id|>']):
+        return self.client.chat.completions.create(
+                model=model,
+                messages=messages,
+                temperature=temperature,
+                stop=stop
+            )

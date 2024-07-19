@@ -19,4 +19,7 @@ Please continue to iterate the phenotype information in [Result] according to th
 
 {{content}}
 
-Please double check all requirements and given [Result] JSON objects:
+Please double check all requirements and given [Result] JSON objects: 
+
+{
+    
