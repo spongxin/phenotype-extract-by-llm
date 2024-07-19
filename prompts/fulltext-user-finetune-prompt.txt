@@ -4,7 +4,6 @@ Your goal is to check whether the output below meets the requirements. The follo
 - Please check the extracted phenotypic values ​​for consistency with [Evidence] and correct any data that may be fabricated or inconsistent with the facts.
 - When the output result meets the requirements, return the JSON result directly;
 - No omissions or ellipsis may appear in any part, no part may be replaced by ellipsis;
-- Any original sentence referenced by the newly extracted phenotypic information should be placed in the [Evidence] list;
 - Items in [Evidence] that have never been used should be deleted;
 - The data format of the table type value must be consistent with the regulations;
 - JSON data should not contain special symbols and content that may cause JSON parsing failure. For example, incorrect double quotes " in a list result may cause list parsing failure;
