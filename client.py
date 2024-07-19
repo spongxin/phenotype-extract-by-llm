@@ -46,8 +46,6 @@ class GroqClient:
 
 class OpenAIClient:
     def __init__(self, url: str = "http://localhost:8086/v1", api_key: str = 'EMPTY'):
-        
-
         self.client = OpenAI(
             base_url=url,
             api_key=api_key,

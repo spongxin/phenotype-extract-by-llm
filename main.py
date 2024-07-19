@@ -80,7 +80,7 @@ def extract(filename: str, finetune: int, min_length: int, max_fix: int):
             resp = clients.chat(
                 model=args.model,
                 messages=chats,
-                temperature=0.1,
+                temperature=0,
             )
             results.append(resp.choices[0].message.content)
             logger.info(f"extracted {idx + 1} paragraphs from {doc.name}")
@@ -93,7 +93,7 @@ def extract(filename: str, finetune: int, min_length: int, max_fix: int):
             resp = clients.chat(
                 model=args.model,
                 messages=chats,
-                temperature=0.1,
+                temperature=0,
             )
             results.append(resp.choices[0].message.content)
             chats.append({"role": "assistant", "content": resp.choices[0].message.content})
@@ -112,7 +112,7 @@ def extract(filename: str, finetune: int, min_length: int, max_fix: int):
             resp = clients.chat(
                 model=args.model,
                 messages=chats,
-                temperature=0.1,
+                temperature=0,
             )
             results.append(resp.choices[0].message.content)
             chats.append({"role": "assistant", "content": resp.choices[0].message.content})
