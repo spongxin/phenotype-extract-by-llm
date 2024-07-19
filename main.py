@@ -23,7 +23,7 @@ parser.add_argument('--debug', '-d', action='store_true', help='print debug info
 parser.add_argument('--finetune', '-ft', type=int, default=3, help='number of finetune iterations')
 parser.add_argument('--fix', '-fx', type=int, default=5, help='max number of fix iterations')
 parser.add_argument('--length', '-l', type=int, default=2000, help='minimum length of the paragraph per request')
-parser.add_argument('--host', '-hs', type=int, default=None, help='local host of llm service')
+parser.add_argument('--port', '-po', type=int, default=None, help='local host port of llm service')
 args = parser.parse_args()
 
 logger = logging.getLogger(__name__)
@@ -49,12 +49,12 @@ filenames = filenames[:args.num] if args.num > 0 else filenames
 prompts = Prompt(args.prompt).prompts
 
 
-if args.host is None:
+if args.port is None:
     # Groq client assigner
     clients = GroqClient()
 else:
     # vLLM client assigner
-    clients = OpenAIClient(url=f"http://localhost:{args.host}")
+    clients = OpenAIClient(url=f"http://localhost:{args.port}/v1")
 
 
 def extract(filename: str, finetune: int, min_length: int, max_fix: int):
