@@ -77,7 +77,7 @@ def extract(filename: str, finetune: int, min_length: int, max_fix: int):
             content = prompts.get('fulltext-user-iter-prompt').replace("{{current_result}}", str(results[-1])).replace("{{content}}", paragraph)
             chats[-1] = {"role": "user", "content": content}
             logger.debug(f"request content: \n{content}\n")
-            resp = clients.get_aviliable_client().chat.completions.create(
+            resp = clients.chat(
                 model=args.model,
                 messages=chats,
                 temperature=0.1,
@@ -90,7 +90,7 @@ def extract(filename: str, finetune: int, min_length: int, max_fix: int):
         chats = chats[:-1]
         for ft in range(finetune):
             chats.append({"role": "user", "content": prompts.get('fulltext-user-finetune-prompt').replace("{{current_result}}", str(results[-1]))})
-            resp = clients.get_aviliable_client().chat.completions.create(
+            resp = clients.chat(
                 model=args.model,
                 messages=chats,
                 temperature=0.1,
@@ -109,7 +109,7 @@ def extract(filename: str, finetune: int, min_length: int, max_fix: int):
         while type(extracted) == str and max_fix > 0:
             logger.warning(extracted)
             chats.append({"role": "user", "content": prompts.get('fulltext-user-fix-prompt').replace("{{current_result}}", str(results[-1])).replace("{{error_message}}", extracted)})
-            resp = clients.get_aviliable_client().chat.completions.create(
+            resp = clients.chat(
                 model=args.model,
                 messages=chats,
                 temperature=0.1,
