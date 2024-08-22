@@ -1,70 +1,326 @@
-You are a microbiologist who can perfectly understand and analyze the description of microorganisms and extract phenotypic information. You need to extract information according to the JSON format named [Result] below:
+You are a microbiologist who can perfectly understand and analyze the description of microorganisms and extract phenotypic information. You need to extract information according to the JSON format below:
 {
-    "Type Strains": [
-        # All `type strains` mentioned in the given content. When multiple type strains are identified, put them all into this list. Value format: list object
-        # The elements of list [Type Strains] should has the following structure:
-        {
-        "Type Strain": {
-                "Strain Designation": "Type Strain's name according to the International Nomenclature of Microorganisms. If there are other numbers, they need to be enclosed in parentheses. e.g. YIT 11304T (=DSM 16506T =NCIMB 13994T =VKM B-2757T =BCRC 17990T =JCM 15121T). Value format: string",
-                "Species": "The name of Type Strain's Species including genus name and species name, with a blank between. e.g. Mycolicibacterium confluentis. Value format: string",
-                "Evidence": "Reference to the original text for all phenotype in [Type Strain] section. Value format: list object"
+    "Type Strain": {
+        "Strain Designation": {
+            "description": "Type strain's name according to the International Nomenclature of Microorganisms.",
+            "value format": "string",
+            "example": "YIT 11304T (=DSM 16506T =NCIMB 13994T =VKM B-2757T =BCRC 17990T =JCM 15121T)",
+            "rule": "[BASE RULE];",
+        },
+        "Species": {
+            "description": "The name of Type Strain's Species including genus name and species name, with a blank between.",
+            "value format": "string",
+            "example": "Mycolicibacterium confluentis",
+            "rule": "[BASE RULE];",
+        },
+        "Etymology": {
+            "description": "Name origins of the organism.",
+            "value format": "string",
+            "example": "en.o.shi.men'sis. N.L. masc. adj. enoshimensis pertaining to Enoshima Island in Japan, where the type strain was isolated",
+            "rule": "[BASE RULE];",
+        }
+    },
+    "Ecology": {
+        "Sampling": {
+            "Isolation Source": {
+                "description": "The source where the sample was isolated from, which was from manually curation.",
+                "value format": "string",
+                "example": "Soil",
+                "rule": "[BASE RULE];",
             },
-            "Ecology": {
-                "Sample Type/Isolated From": "The source where the sample of bacteria was isolated from e.g. lung abscess, elephant. Value format: string",
-                "Host Body-Site": "The host body-site sample was isolated from e.g. blood. Value format: string",
-                "Host disease": "The disease name caused by this train e.g. Hypersensitivity pneumonitis. e.g. wound infection; ear abscess. Value format: string",
-                "Country": "Country name where the sample for the microorganism was first collected e.g. Tunisia. Value format: string", 
-                "Geographic Location Name": "The geographical origin of the sample as defined by the country or sea name followed by specific region name e.g. Hammam Biadha. Value format: string",
-                "Evidence": "The reference text or your inference process of all phenotypic information in the [Ecology] section. Value format: list object"
-            }, 
-            "Morphology": {
-                "Cell Morphology": {
-                    "Cell Shape": "The microorganism cell shape. e.g. rod-shaped. Value format: string",
-                    "Cell Length": "Length range of the cell, please convert to µm. e.g. 3.6-5.1 µm. Value format: string",
-                    "Cell Width": "Width range of the cell, please convert to µm. [Cell width] should smaller than [Cell length]. e.g. 1.2-2.1 µm. Value format: string",
-                    "Motility": "The ability of the microorganism to move independently, using metabolic energy e.g. motility choose true. Value format: + | - | unknown",
-                    "Flagellum": "If the cell has flagellum. Value format: + | - | unknown",
-                    "Growth Rate": "The growth rate of microorganism e.g. rapidly growing. Value format: string",
-                    "Gram Stain": "Staining results used to differentiate bacterial species and classify them into two main groups: Gram-positive and Gram-negative. Value format: positive | negative | variable | unknown",
-                },
-                "Colony Morphology": {
-                    "Colony Color": "The microorganism colony color. e.g. Saffron yellow. Value format: string",
-                    "Colony Shape": "The microorganism colony shape. e.g. circular. Value format: string"
-                }
-                "Evidence": "The reference text or your inference process of all phenotypic information in the [Morphology] section. Value format: list object"
-            }, 
-            "Physiology and Metabolism": {
-                "Oxygen Requirement": "The microorganism respiration requires the use of oxygen or not. e.g. aerobic. Value format: string",
-                "Culture Medium": "The `growth medium` or culture medium where the cells `grown` on. e.g. MEDIUM K (DSMZ Medium 1122). Value format: string",
-                "Temperatures": "All mentioned temperatures or temperature ranges (in degrees Celsius) and the corresponding growth states. Each piece of data should be packaged as a DICT object including `temperature` and `kind of temperature`. `kind of temperature` contains three states: growth, ungrowth and optimum. Please ignore items with `kind of temperature` is unknown. Value format: list object. e.g. [{'temperature': '10-37', 'kind of temperature': 'growth'}, {'temperature': '31', 'kind of temperature': 'optimum'}, {'temperature': '40', 'kind of temperature': 'ungrowth'}]",
-                "pH": "All mentioned pH or pH ranges and the corresponding growth states. Each piece of data should be packaged as a DICT object including `pH` and `kind of pH`. `kind of pH` contains three states: growth, ungrowth and optimum. Please ignore items with `kind of pH` is unknown. Value format: list object. e.g. [{'pH': '5.5-8.5', 'kind of pH': 'growth'}, {'pH': '7', 'kind of pH': 'optimum'}]",
-                "Salt": "All mentioned salt concentrations and the corresponding growth states. Each piece of data should be packaged as a DICT object including `salt concentration` and `kind of concentration`. `kind of concentration` contains three states: growth, ungrowth and optimum. Please ignore items with `salt concentration` is unknown. Value format: list object. e.g. [{'salt concentration': '5% NaCl', 'kind of concentration': 'growth'}]",
-                "Antibiotic": "All mentioned antibiotics and response of `type strain` to the antibiotics (sensitive or resistant). Each piece of data should be packaged as a DICT object including `antibiotic` and `antibiotic activity`. `antibiotic activity` contains two states: + | -. Please ignore items with `antibiotic activit` is unknown. Value format: list object. e.g. [{'antibiotic': 'isoniazid', 'antibiotic activity': '+'}]",
-                "Carbon/Nitrogen Source": "All mentioned carbon or nitrogen sources and the ability of the `type strain` to obtain energy or build cell components with the carbon or nitrogen source (positive or negative). Each piece of data should be packaged as a DICT object including `C/N source` and `kind of C/N source`. `kind of C/N source` contains two states: + | -. Please ignore items with `kind of C/N source` is unknown. Value format: list object. e.g. [{'C/N source': 'nitrate', 'kind of C/N source': '+'}, {'C/N source': 'd-xylose', 'kind of C/N source': '-'}]",
-                "Murein": {
-                    "Murein Short Key": "A simplified classification system used to describe the peptidoglycan (murein) structure in bacterial cell walls. e.g. A11.31; A21.04; Value format: string",
-                    "Murein Type": "Characterization of the different murein types, including amino acid sequence and amino sugar composition e.g. A4alpha L-Lys-L-Glu. Value format: string"
-                },
-                "Spore Formation": "Ability of spore formation (positive or negative). Value format: + | - | unknown",
-                "Enzymes": "All mentioned enzymes and the ability of `type strain` to synthesize the enzyme (positive or negative). Each piece of data should be packaged as a DICT object including `emzyme` and `enzyme activity`. `enzyme activity` contains two states: + | -. Value format: list object. e.g. [{'enzyme': 'catalase', 'enzyme activity': '+'}, {'enzyme': 'urease', 'enzyme activity': '-'}]",
-                "Evidence": "The reference text or your inference process of all phenotypic information in the [Physiology and Metabolism] section. Value format: list object"
-            }, 
-            "Biochemistry": {
-                "Nitrate Reduction": "The ability to reduce nitrate to nitrite. Value format: + | - | unknown",
-                "Indole Production": "The ability to produce indole. Value format: + | - | unknown"
-                "Evidence": "The reference text or your inference process of all phenotypic information in the [Biochemistry] section. Value format: list object"
+            "Sampling Date": {
+                "description": "The date of sampling.",
+                "value format": "string",
+                "example": "2008-01-23T19:23:10",
+                "rule": "[BASE RULE];",
             },
-            "Biosafety": {
-                "Biosafety Level": "Biosafety level defined for the strain (Biosafety is used to protect from harmful incidents. Many laboratories handling biohazards employ an ongoing risk management assessment and enforcement process for biosafety. ) e.g. 2. Value format: int",
-                "Biosafety Level Comment": "Detail description of biosafety level e.g. Risk group (German classification) Value format: string",
-                "Evidence": "The reference text or your inference process of all phenotypic information in the [Biosafety] section. Value format: list object"
+            "Sample Name": {
+                "description": "Sample Name is a name that you choose for the sample.",
+                "value format": "string",
+                "example": "",
+                "rule": "[BASE RULE];",
+            },
+            "Host Disease": {
+                "description": "The disease name caused by the bacterium.",
+                "value format": "string",
+                "example": "Hypersensitivity pneumonitis; Wound infection",
+                "rule": "[BASE RULE];",
             }
         },
-        
-    ],
-    "Type Strains Number": "The number of Type Strains identified, must be consistent with the length of the above list [Type Strains]. Value Format: int",
+        "Geography": {
+            "Continent": {
+                "description": "Continent name: sample material/strain origin.",
+                "value format": "string",
+                "example": "Asia",
+                "rule": "[BASE RULE];",
+            },
+            "Country": {
+                "description": "Country name: sample material/strain origin.",
+                "value format": "string",
+                "example": "Taiwan, Province of China",
+                "rule": "[BASE RULE];",
+            },
+            "Geographic Location": {
+                "description": "The geographical origin of the sample as defined by the country or sea name followed by specific region name.",
+                "value format": "string",
+                "example": "",
+                "rule": "[BASE RULE];",
+            },
+            "Geographic Coordinate": {
+                "description": "A geographic coordinate specifies the east–west position of a point on the Earth's surface where the sample was first collected. The values should be reported in decimal degrees and in WGS84 system.",
+                "value format": "string",
+                "example": "50.586825 6.408977",
+                "rule": "[BASE RULE];",
+            },
+            "Water Depth": {
+                "description": "The vertical distance below local surface, e.g. For sediment or soil samples depth is measured from sediment or soil surface, respectively.",
+                "value format": "string",
+                "example": "100 meter",
+                "rule": "[BASE RULE];",
+            }
+        },
+        "Enrichment": {
+            "Enrichment Culture Medium": {
+                "description": "The medium name of the enrichment culture.",
+                "value format": "string",
+                "example": "Basal Culture Medium",
+                "rule": "[BASE RULE];",
+            },
+            "Enrichment Culture Duration": {
+                "description": "The time of the enrichment culture cost.",
+                "value format": "string",
+                "example": "",
+                "rule": "min (minute); h (hour); d (day); w (week); m (month); y (year); [BASE RULE];",
+            },
+            "Enrichment Culture Temperature": {
+                "description": "The temperature of the enrichment culture.",
+                "value format": "string",
+                "example": "",
+                "rule": "[BASE RULE];",
+            },
+            "Isolation Date": {
+                "description": "The date that the bacterium was isolated.",
+                "value format": "string",
+                "example": "",
+                "rule": "[BASE RULE];",
+            }
+        }
+    }, 
+    "Morphology": {
+        "Cell": {
+            "Cell Shape": {
+                "description": "A cell morphology phenotype where the trait in question is the shape of a cell.",
+                "value format": "string",
+                "example": "rod-shaped",
+                "rule": "[BASE RULE];",
+            },
+            "Cell Length": {
+                "description": "Length of the cell.",
+                "value format": "string",
+                "example": "3.6-5.1 µm",
+                "rule": "Please do not lose the unit of the value; [BASE RULE];",
+            },
+            "Cell Width": {
+                "description": "Width of the cell.",
+                "value format": "string",
+                "example": "1.25 µm",
+                "rule": "Please do not lose the unit of the value; [BASE RULE];",
+            },
+            "Diameter": {
+                "description": "Diameter of the cell.",
+                "value format": "string",
+                "example": "1.5-2.3 µm",
+                "rule": "Please do not lose the unit of the value; [BASE RULE];",
+            }
+        },
+        "Colony": {
+            "Colony Color": {
+                "description": "Color of the colony, including pigmentation color.",
+                "value format": "string",
+                "example": "saffron yellow",
+                "rule": "[BASE RULE];",
+            }
+            "Colony Shape": {
+                "description": "A colony morphology phenotype dealing with the basic shape or form of a colony or colonies.",
+                "value format": "string",
+                "example": "circular",
+                "rule": "[BASE RULE];",
+            },
+            "Colony Size": {
+                "description": "A colony morphology phenotype dealing with the size of the colony.",
+                "value format": "string",
+                "example": "",
+                "rule": "[BASE RULE];",
+            },
+            "Cultivation Medium": {
+                "description": "Name of the culture medium.",
+                "value format": "string",
+                "example": "Yeast Extract-malt Extract Agar",
+                "rule": "[BASE RULE];",
+            },
+            "Incubation Period": {
+                "description": "Incubation period in context with the description of colony morphology.",
+                "value format": "string",
+                "example": "",
+                "rule": "[BASE RULE];",
+            },
+            "Spore Formation": {
+                "description": "Ability of spore formation.",
+                "value format": "string",
+                "example": "positive",
+                "rule": "[BASE RULE]; [BIPOLAR RULE];",
+            },
+        }
+            "Flagellum": "If the cell has flagellum. Value format: + | - | unknown",
+            "Growth Rate": "The growth rate of microorganism e.g. rapidly growing. Value format: string",
+            },
+    "Physiology": {
+        "Pathogenicity": {
+            "description": "Ability of causing pathological conditions within the referring organism.",
+            "value format": "string",
+            "example": "negative",
+            "rule": "[BASE RULE]; [BIPOLAR RULE];",
+        },
+        "Carbon/Nitrogen Source": {
+            "description": "A nutrient utilization phenotype related to the ability of a microbe to utilize a nutrient as a source of carbon or nitrogen. C/N source contains organic compound or inorganic compound.",
+            "value format": "list",
+            "example": [{"C/N source": "nitrate", "utilization": "positive"}, {"C/N source": "d-xylose", "utilization": "negative"}],
+            "rule": "Each piece of data should be packaged as a object including [C/N source] and [utilization]. [utilization] contains two states 'positive' and 'negative'. Ignore items with value is 'unknown'. [BASE RULE];",
+        },
+        "Attributes": {
+            "Gram Stain": {
+                "description": "A cell staining phenotype where microorganisms are grouped based on their ability to retain crystal violet stain when decolorized with an organic solvent such as ethanol.",
+                "value format": "string",
+                "example": "negative",
+                "rule": "Only includes options 'positive', 'negative' and 'variable'; [BASE RULE];",
+            },
+            "Growth Rate": {
+                "description": "The growth rate of microbe cell.",
+                "value format": "string",
+                "example": "rapidly growing",
+                "rule": "[BASE RULE];",
+            },
+            "Motility": {
+                "description": "The ability of the microbe to move independently, using metabolic energy. A locomotion phenotype where the trait in question is the self-propelled movement of a microbe from one location to another.",
+                "value format": "string",
+                "example": "negative",
+                "rule": "[BASE RULE]; [BIPOLAR RULE];",
+            },
+            "Oxygen Requirement": {
+                "description": "The bacterium respiration requires the use of oxygen or not.",
+                "value format": "string",
+                "example": "aerobic",
+                "rule": "[BASE RULE];",
+            },
+            "Flagellum": {
+                "description": "If the cell has flagellum.",
+                "value format": "string",
+                "example": "negative",
+                "rule": "[BASE RULE]; [BIPOLAR RULE];",
+            },
+        },
+        "Temperature": {
+            "description": "A growth phenotype where the trait in question is the range of temperatures where growth of the microbe can occur.",
+            "value format": "list",
+            "example": [{"temperature": "16", "state": "growth"}, {"temperature": "21-25", "state": "growth"}, {"temperature": "30-40", "state": "ungrowth"}],
+            "rule": "Each piece of data should be packaged as a object including [temperature] and [state]. [state] contains 'growth' and 'ungrowth'; [BASE RULE];",
+        },
+        "Optimum Temperature": {
+            "description": "Optimum temperature or temperature range.",
+            "value format": "string",
+            "example": "25",
+            "rule": "[BASE RULE];",
+        },
+        "pH": {
+            "description": "A growth range phenotype related to the pH range that allows growth of a cell or organism.",
+            "value format": "list",
+            "example": [{"pH": "5-7", "state": "growth"}, {"pH": "8-9.5", "state": "ungrowth"}],
+            "rule": "Each piece of data should be packaged as a object including [pH] and [state]. [state] contains 'growth' and 'ungrowth'; [BASE RULE];",
+        },
+        "Optimum pH": {
+            "description": "Optimum pH or pH range.",
+            "value format": "string",
+            "example": "7",
+            "rule": "[BASE RULE];",
+        },
+        "Salt": {
+            "description": "Kind of salt related to halophilic information usually NaCl.",
+            "value format": "list",
+            "example": [{"salt": "NaCl", "salt conc.": "10 %", "state": "ungrowth"}, {"salt": "NaCl", "salt conc.": "0-6 %", "state": "growth"}],
+            "rule": "Each piece of data should be packaged as a object including [salt], [salt conc.] and [state]. [state] contains 'growth' and 'ungrowth'; [BASE RULE];",
+        },
+        "Optimum Salt": {
+            "description": "Optimum salt concentration (usually in %).",
+            "value format": "string",
+            "example": "0-6 % NaCl",
+            "rule": "[BASE RULE];",
+        },
+        "Antibiotic": {
+            "description": "Microbial response to antibiotics (usually sensitive or resistant).",
+            "value format": "list",
+            "example": [{"substance": "isoniazid", "concentration": "10 µG", "sensitivity": "sensitive"}],
+            "rule": "Each piece of data should be packaged as a object including [substance], [concentration] and [sensitivity]. [sensitivity] contains 'sensitive' and 'resistant'; [BASE RULE];",
+        },
+        "Metabolite Production": {
+            "description": "Name of metabolite that was collected from manually curation.",
+            "value format": "list",
+            "example": ["dihydroxyacetone", ],
+            "rule": "[BASE RULE];",
+        },
+        "GC Content": {
+            "description": "Guanine-Cytosine content in mol%.",
+            "value format": "string",
+            "example": "58.1",
+            "rule": "[BASE RULE];",
+        }
+    },
+    "Enzymology": {
+        "enzymology": {
+            "description": "The name of enzyme, which are synthesized by bacterium. Enzymology is a microbial phenotype that affects an enzymatic activity.",
+            "value format": "list",
+            "example": [{'enzyme': 'catalase', 'activity': 'positive'}, {'enzyme': 'urease', 'activity': 'negative'}],
+            "rule": "Each piece of data should be packaged as a object including [enzyme] and [activity]. [activity] contains 'positive' and 'negative'; [BASE RULE];",
+        }
+    },
+    "Biochemistry": {
+        "Indole Production": {
+            "description": "A biochemical test performed on bacterial species to determine the ability of the bacterium to convert tryptophan into indole.",
+            "value format": "string",
+            "example": "positive",
+            "rule": "[BASE RULE]; [BIPOLAR RULE];",
+        },
+        "Nitrate Reduction": {
+            "description": "A test used to detect the ability of bacterium to use nitrate.",
+            "value format": "string",
+            "example": "negative",
+            "rule": "[BASE RULE]; [BIPOLAR RULE];",
+        },
+        "Fatty Acids Profile": {
+            "description": "The fatty acid compositions of the bacterium.",
+            "value format": "string",
+            "example": "Iso-c15 : 0, Anteiso-c15 : 0, Iso-c15 : 0 3-oh, C17 : 1v6c,iso-c16 : 0 3-oh, Iso-c17 : 0 3-oh And Summed Feature 4(comprising Iso-c17 : 1 I And Anteiso-c17 : 1 B)",
+            "rule": "[BASE RULE];",
+        }
+    },
+    "Biosafety": {
+        "Biosafety Level": {
+            "description": "Biosafety level defined for the strain.",
+            "value format": "string",
+            "example": "2",
+            "rule": "[BASE RULE];",
+        },
+        "Biosafety Level Comment": {
+            "description": "Detail description of biosafety level.",
+            "value format": "string",
+            "example": "Risk group (German classification)",
+            "rule": "[BASE RULE];",
+        }
+    }
 }
-`Do not` change any structure in the JSON [Result], but extract information as described and required for all phenotypic items. 
-When the phenotype value is uncertain, please set it to `unknown`. 
-Please maintain the original parsability of all output formats that are `list`, and avoid incorrect use of symbols that make the list format unusable in the program. 
-For data [Value Format] is `list object`, please do not fill in with items contain `unknown`.
+
+Each element in the above structure needs to comply with the rules mentioned in [rule]. The specific scheme is as follows:
+[BASE RULE]: Only the attributes [value] and [reference] are included in JSON format. [value] displays the extracted phenotypic value according to the [value format] and [example] prompts; [reference] stores the original sentence that the corresponding [value] depends on. When [reference] has multiple elements, the type "string" should be converted to the type "list".
+[BIPOLAR RULE]: Only includes options 'positive' and 'negative' in [value];
+
+When extracting phenotypic information, you should follow each rule, extract all identified phenotypic information and fill it in as required, and deliver the data in a JSON structure. 
+When the phenotypic value is uncertain, set its [value] to "unknown". But do not add "unknown" to an item of type "list".
