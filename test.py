@@ -34,7 +34,14 @@ class TestQualityControl(unittest.TestCase):
         candidates = ItemsControl.control_enzyme_list(enzyme_list)
         for e, c in zip(enzyme_list, candidates):
             print(f'{e} -> {c}')
-
+    def test_control_cnsource_list(self):
+        cnsource_list = [
+            'glucose',
+            'fructose'
+        ]
+        candidates = ItemsControl.control_cnsource_list(cnsource_list)
+        for e, c in zip(cnsource_list, candidates):
+            print(f'{e} -> {c}')
 
 if __name__ == '__main__':
     unittest.main()

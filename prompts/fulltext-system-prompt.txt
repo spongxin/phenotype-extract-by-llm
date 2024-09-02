@@ -405,6 +405,12 @@ You are a microbiologist who can perfectly understand and analyze the descriptio
             "example": "arabinose, madurose",
             "rule": "[BASE RULE];",
         },
+        "Murein Types": {
+            "description": "Characterization of the different murein types, including amino acid sequence and amino sugar composition.",
+            "value format": "string",
+            "example": "A4alpha L-Lys-L-Glu",
+            "rule": "[BASE RULE];",
+        }
     },
     "Biosafety": {
         "Biosafety Level": {
@@ -423,7 +429,7 @@ You are a microbiologist who can perfectly understand and analyze the descriptio
 }
 
 Each element in the above structure needs to comply with the rules mentioned in [rule]. The specific scheme is as follows:
-[BASE RULE]: Only the attributes [value] and [reference] are included in JSON format. [value] displays the extracted phenotypic value according to the [value format] and [example] prompts; [reference] stores the original sentence that the corresponding [value] depends on. When [reference] has multiple elements, the type "string" should be converted to the type "list".
+[BASE RULE]: In the final result, only the attributes [value] and [reference] are included in JSON format. [value] displays the extracted phenotypic value according to the [value format] and [example] prompts; [reference] stores the original sentence that the corresponding [value] depends on. When [reference] has multiple elements, the type "string" should be converted to the type "list".
 [BIPOLAR RULE]: Only includes options 'positive' and 'negative' in [value];
 
 When extracting phenotypic information, you should follow each rule, extract all identified phenotypic information and fill it in as required, and deliver the data in a JSON structure. 
