@@ -1,11 +1,17 @@
 You are a microbiologist who can perfectly understand and analyze the description of microorganisms and extract phenotypic information. You need to extract information according to the JSON format below:
 {
-    "Type Strain": {
+    "Basic Info": {
         "Strain Designation": {
             "description": "Type strain's name according to the International Nomenclature of Microorganisms.",
             "value format": "string",
             "example": "YIT 11304T (=DSM 16506T =NCIMB 13994T =VKM B-2757T =BCRC 17990T =JCM 15121T)",
             "rule": "[BASE RULE];",
+        },
+        "Scientific Name": {
+            "description": "Scientific name.",
+            "value format": "string",
+            "example": "Zeaxanthinibacter enoshimensis",
+            "rule": "genus name + species name, a blank between genus name and species name; [BASE RULE];",
         },
         "Species": {
             "description": "The name of Type Strain's Species including genus name and species name, with a blank between.",
@@ -18,6 +24,12 @@ You are a microbiologist who can perfectly understand and analyze the descriptio
             "value format": "string",
             "example": "en.o.shi.men'sis. N.L. masc. adj. enoshimensis pertaining to Enoshima Island in Japan, where the type strain was isolated",
             "rule": "[BASE RULE];",
+        },
+        "Type Strain": {
+            "description": "Is the strain a type strain or not.",
+            "value format": "string",
+            "example": "positive",
+            "rule": "[BASE RULE]; [BIPOLAR RULE];",
         }
     },
     "Ecology": {
@@ -45,6 +57,18 @@ You are a microbiologist who can perfectly understand and analyze the descriptio
                 "value format": "string",
                 "example": "Hypersensitivity pneumonitis; Wound infection",
                 "rule": "[BASE RULE];",
+            },
+            "Host Body-Site": {
+                "description": "The host body-site sample was isolated from.",
+                "value format": "string",
+                "example": "blood",
+                "rule": "[BASE RULE];",
+            },
+            "Environment": {
+                "description": "The environmental information when the sample was collected.",
+                "value format": "string",
+                "example": "root:Environmental:Aquatic:Thermal springs:Hot (42-90C):Sediment",
+                "rule": "[BASE RULE];",
             }
         },
         "Geography": {
@@ -57,19 +81,19 @@ You are a microbiologist who can perfectly understand and analyze the descriptio
             "Country": {
                 "description": "Country name: sample material/strain origin.",
                 "value format": "string",
-                "example": "Taiwan, Province of China",
+                "example": "Tunisia",
                 "rule": "[BASE RULE];",
             },
             "Geographic Location": {
                 "description": "The geographical origin of the sample as defined by the country or sea name followed by specific region name.",
                 "value format": "string",
-                "example": "",
+                "example": "Hammam Biadha",
                 "rule": "[BASE RULE];",
             },
             "Geographic Coordinate": {
                 "description": "A geographic coordinate specifies the east–west position of a point on the Earth's surface where the sample was first collected. The values should be reported in decimal degrees and in WGS84 system.",
                 "value format": "string",
-                "example": "50.586825 6.408977",
+                "example": "24.95014 N; 98.43743 E",
                 "rule": "[BASE RULE];",
             },
             "Water Depth": {
@@ -84,6 +108,12 @@ You are a microbiologist who can perfectly understand and analyze the descriptio
                 "description": "The medium name of the enrichment culture.",
                 "value format": "string",
                 "example": "Basal Culture Medium",
+                "rule": "[BASE RULE];",
+            },
+            "Procedure Origin": {
+                "description": "The method how the organism was isolated and enriched.",
+                "value format": "string",
+                "example": "dilution-plating method",
                 "rule": "[BASE RULE];",
             },
             "Enrichment Culture Duration": {
@@ -161,25 +191,49 @@ You are a microbiologist who can perfectly understand and analyze the descriptio
             "Incubation Period": {
                 "description": "Incubation period in context with the description of colony morphology.",
                 "value format": "string",
-                "example": "",
+                "example": "4 days",
                 "rule": "[BASE RULE];",
             },
+        },
+        "Spore": {
             "Spore Formation": {
                 "description": "Ability of spore formation.",
                 "value format": "string",
                 "example": "positive",
                 "rule": "[BASE RULE]; [BIPOLAR RULE];",
             },
-        }
-            "Flagellum": "If the cell has flagellum. Value format: + | - | unknown",
-            "Growth Rate": "The growth rate of microorganism e.g. rapidly growing. Value format: string",
+            "Spore Type": {
+                "description": "Type of spore formation.",
+                "value format": "string",
+                "example": "endospore",
+                "rule": "[BASE RULE];",
             },
+            "Spore Description": {
+                "description": "Detail description of the spore formation.",
+                "value format": "string",
+                "example": "ellipsoidal spores centrally and paracentrally in unswollen sporangia.",
+                "rule": "[BASE RULE];",
+            }
+        },
+        "Multicelluar Ability": {
+            "description": "Ability of forming multicellular complexes (aggregations).",
+            "value format": "string",
+            "example": "positive",
+            "rule": "[BASE RULE]; [BIPOLAR RULE];",
+        }
+    },
     "Physiology": {
         "Pathogenicity": {
             "description": "Ability of causing pathological conditions within the referring organism.",
             "value format": "string",
             "example": "negative",
             "rule": "[BASE RULE]; [BIPOLAR RULE];",
+        },
+        "Nutrition Type": {
+            "description": "The nutrition type of the microorgainsm.",
+            "value format": "string",
+            "example": "autotroph",
+            "rule": "[BASE RULE];",
         },
         "Carbon/Nitrogen Source": {
             "description": "A nutrient utilization phenotype related to the ability of a microbe to utilize a nutrient as a source of carbon or nitrogen. C/N source contains organic compound or inorganic compound.",
@@ -218,6 +272,12 @@ You are a microbiologist who can perfectly understand and analyze the descriptio
                 "example": "negative",
                 "rule": "[BASE RULE]; [BIPOLAR RULE];",
             },
+            "Flagellum Arrangement": {
+                "description": "Flagellum arrangement of the microorganism.",
+                "value format": "string",
+                "example": "peritrichous flagella",
+                "rule": "[BASE RULE];",
+            }
         },
         "Temperature": {
             "description": "A growth phenotype where the trait in question is the range of temperatures where growth of the microbe can occur.",
@@ -272,6 +332,26 @@ You are a microbiologist who can perfectly understand and analyze the descriptio
             "value format": "string",
             "example": "58.1",
             "rule": "[BASE RULE];",
+        },
+        "GC Method": {
+            "description": "The method used to quantify GC content.",
+            "value format": "string",
+            "example": "HPLC",
+            "rule": "[BASE RULE];",
+        },
+        "Hemolysis": {
+            "Hemolysis Ability": {
+                "description": "Ability of hemolysis, which is the lysis of red blood cells and the release of the cytoplasm into surrounding fluid.",
+                "value format": "string",
+                "example": "negative",
+                "rule": "[BASE RULE]; [BIPOLAR RULE];",
+            },
+            "Hemolysis Type": {
+                "description": "Type of hemolysis.",
+                "value format": "string",
+                "example": "alpha",
+                "rule": "[BASE RULE];",
+            }
         }
     },
     "Enzymology": {
@@ -289,6 +369,12 @@ You are a microbiologist who can perfectly understand and analyze the descriptio
             "example": "positive",
             "rule": "[BASE RULE]; [BIPOLAR RULE];",
         },
+        "Voges-Proskauer Test": {
+            "description": "A test used to detect acetoin in a bacterial broth culture.",
+            "value format": "string",
+            "example": "negative",
+            "rule": "[BASE RULE]; [BIPOLAR RULE];",
+        },
         "Nitrate Reduction": {
             "description": "A test used to detect the ability of bacterium to use nitrate.",
             "value format": "string",
@@ -300,7 +386,25 @@ You are a microbiologist who can perfectly understand and analyze the descriptio
             "value format": "string",
             "example": "Iso-c15 : 0, Anteiso-c15 : 0, Iso-c15 : 0 3-oh, C17 : 1v6c,iso-c16 : 0 3-oh, Iso-c17 : 0 3-oh And Summed Feature 4(comprising Iso-c17 : 1 I And Anteiso-c17 : 1 B)",
             "rule": "[BASE RULE];",
-        }
+        },
+        "Cell-Wall Animo Acid": {
+            "description": "The amino acid composition in the cell wall of the microoriganism.",
+            "value format": "string",
+            "example": "meso-diaminopimelic acid, alanine, glutamic acid",
+            "rule": "[BASE RULE];",
+        },
+        "Whole-Cell Sugar": {
+            "description": "The sugars of the microorganism, which are analyzed after whole-cell hydrolysis.",
+            "value format": "string",
+            "example": "arabinose, madurose",
+            "rule": "[BASE RULE];",
+        },
+        "Cell-Wall Sugar": {
+            "description": "The cell-wall sugar composition of the microorganism.",
+            "value format": "string",
+            "example": "arabinose, madurose",
+            "rule": "[BASE RULE];",
+        },
     },
     "Biosafety": {
         "Biosafety Level": {
