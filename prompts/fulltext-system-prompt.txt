@@ -195,6 +195,32 @@ You are a microbiologist who can perfectly understand and analyze the descriptio
                 "rule": "[BASE RULE];",
             },
         },
+        "Multicelluar Ability": {
+            "description": "Ability of forming multicellular complexes (aggregations).",
+            "value format": "string",
+            "example": "positive",
+            "rule": "[BASE RULE]; [BIPOLAR RULE];",
+        }，
+        "Gram Stain": {
+            "description": "A cell staining phenotype where microorganisms are grouped based on their ability to retain crystal violet stain when decolorized with an organic solvent such as ethanol.",
+            "value format": "string",
+            "example": "negative",
+            "rule": "Only includes options 'positive', 'negative' and 'variable'; [BASE RULE];",
+        },
+        "Motility": {
+            "description": "The ability of the microbe to move independently, using metabolic energy. A locomotion phenotype where the trait in question is the self-propelled movement of a microbe from one location to another.",
+            "value format": "string",
+            "example": "negative",
+            "rule": "[BASE RULE]; [BIPOLAR RULE];",
+        }
+    },
+    "Physiology": {
+        "Pathogenicity": {
+            "description": "Ability of causing pathological conditions within the referring organism.",
+            "value format": "string",
+            "example": "negative",
+            "rule": "[BASE RULE]; [BIPOLAR RULE];",
+        },
         "Spore": {
             "Spore Formation": {
                 "description": "Ability of spore formation.",
@@ -215,20 +241,6 @@ You are a microbiologist who can perfectly understand and analyze the descriptio
                 "rule": "[BASE RULE];",
             }
         },
-        "Multicelluar Ability": {
-            "description": "Ability of forming multicellular complexes (aggregations).",
-            "value format": "string",
-            "example": "positive",
-            "rule": "[BASE RULE]; [BIPOLAR RULE];",
-        }
-    },
-    "Physiology": {
-        "Pathogenicity": {
-            "description": "Ability of causing pathological conditions within the referring organism.",
-            "value format": "string",
-            "example": "negative",
-            "rule": "[BASE RULE]; [BIPOLAR RULE];",
-        },
         "Nutrition Type": {
             "description": "The nutrition type of the microorgainsm.",
             "value format": "string",
@@ -242,23 +254,11 @@ You are a microbiologist who can perfectly understand and analyze the descriptio
             "rule": "Each piece of data should be packaged as a object including [C/N source] and [utilization]. [utilization] contains two states 'positive' and 'negative'. Ignore items with value is 'unknown'. [BASE RULE];",
         },
         "Attributes": {
-            "Gram Stain": {
-                "description": "A cell staining phenotype where microorganisms are grouped based on their ability to retain crystal violet stain when decolorized with an organic solvent such as ethanol.",
-                "value format": "string",
-                "example": "negative",
-                "rule": "Only includes options 'positive', 'negative' and 'variable'; [BASE RULE];",
-            },
             "Growth Rate": {
                 "description": "The growth rate of microbe cell.",
                 "value format": "string",
                 "example": "rapidly growing",
                 "rule": "[BASE RULE];",
-            },
-            "Motility": {
-                "description": "The ability of the microbe to move independently, using metabolic energy. A locomotion phenotype where the trait in question is the self-propelled movement of a microbe from one location to another.",
-                "value format": "string",
-                "example": "negative",
-                "rule": "[BASE RULE]; [BIPOLAR RULE];",
             },
             "Oxygen Requirement": {
                 "description": "The bacterium respiration requires the use of oxygen or not.",
