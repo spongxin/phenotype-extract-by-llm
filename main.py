@@ -87,9 +87,8 @@ def extract(filename: str, finetune: int, min_length: int, max_fix: int):
             if args.debug:
                 logger.debug(f"\n{results[-1]}\n")
                 input("Press `Enter` to continue iter...")
-        chats = chats[:-1]
         for ft in range(finetune):
-            chats.append({"role": "user", "content": prompts.get('fulltext-user-finetune-prompt').replace("{{current_result}}", str(results[-1]))})
+            chats[-1] = {"role": "user", "content": prompts.get('fulltext-user-finetune-prompt').replace("{{current_result}}", str(results[-1]))}
             resp = clients.chat(
                 model=args.model,
                 messages=chats,
