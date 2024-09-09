@@ -3,6 +3,7 @@ api-keys.*
 output/
 input/
 test/
+ijsem/
 __pycache__/
 .ipynb_checkpoints/
 test.py
