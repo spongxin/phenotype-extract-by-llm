@@ -1,61 +1,42 @@
 from typing import Union
-from openai import OpenAI
-import logging
-import time
 import json
 import re
 import os
 
-
-class GroqClient:
-    """
-    Groq api-service client
-    """
-    interval_seconds = 30
-    def __init__(self, api_keys_path: str = "api-keys.txt"):
-        from groq import Groq
-
-        if not os.path.exists(api_keys_path):
-            raise FileNotFoundError(f"API keys file not found: {api_keys_path}")
-        with open(api_keys_path, "r", encoding='utf-8') as f:
-            self._clients = [Groq(api_key=key.strip()) for key in f.readlines() if key.strip()]
-        
-        self._request_table = {idx: None for idx in range(len(self._clients))}
-        self.clients_num = len(self._clients)
     
-    def get_aviliable_client(self):
-        min_waiting_time = self.interval_seconds
-        current_time = time.time()
-        for idx, client in enumerate(self._clients):
-            if self._request_table[idx] is None or current_time - self._request_table[idx] >= self.interval_seconds:
-                self._request_table[idx] = current_time
-                return client
-            waiting_time = self.interval_seconds - (current_time - self._request_table[idx])
-            min_waiting_time = min(min_waiting_time, waiting_time)
-        logging.warning(f"All clients are busy, waiting for {min_waiting_time} seconds")
-        time.sleep(int(min_waiting_time)+1)
-        return self.get_aviliable_client()
-    
-    @staticmethod
-    def extract_json_data(query: str) -> Union[dict, str]:
-        try:
-            json_data = re.search(r'{.*}', query, re.DOTALL).group()
-            return json.loads(json_data)
-        except Exception as e:
-            return f"The following error occurred when converting the output to JSON format:\n {e}"
+def extract_json_data(query: str) -> Union[dict, str]:
+    try:
+        json_data = re.search(r'{.*}', query, re.DOTALL).group()
+        return json.loads(json_data)
+    except Exception as e:
+        return f"The following error occurred when extracting JSON Data from your output:\n {e}"
 
-class OpenAIClient:
-    def __init__(self, url: str = "http://localhost:8086/v1", api_key: str = 'EMPTY'):
+class LocalClient:
+    def __init__(self, config: dict):
+        from openai import OpenAI
         self.client = OpenAI(
-            base_url=url,
-            api_key=api_key,
+            base_url = config.get("endpoint"),
+            api_key = config.get("api_key"),
         )
-        self.clients_num = 1
 
-    def chat(self, model: str, messages: list, temperature: float = 0.1, stop: list = ['<|eot_id|>']):
+    def chat(self, stop: list = ['<|eot_id|>'], **kwargs):
+        return self.client.chat.completions.create(stop=stop, **kwargs)
+
+
+class AzureGPTClient:
+    def __init__(self, **kwargs):
+        from openai import AzureOpenAI
+        self.client = AzureOpenAI(
+            azure_endpoint = os.getenv("AZURE_OPENAI_ENDPOINT"), 
+            api_key=os.getenv("AZURE_OPENAI_API_KEY"),  
+            api_version="2024-02-01"
+        )
+    
+    def chat(self, messages, **kwargs):
         return self.client.chat.completions.create(
-                model=model,
-                messages=messages,
-                temperature=temperature,
-                stop=stop
-            )
+            model=kwargs.get('model'),
+            messages=messages, 
+            temperature=float(kwargs.get('temperature'))
+        )
+
+ClientList = [LocalClient, AzureGPTClient]
