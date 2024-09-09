@@ -13,7 +13,5 @@ The current output is as follows:
 The error message encountered is as follows:
 {{error_message}}
 
-Please directly output the correct JSON format [result].
-
-{
+Please directly output the correct JSON format [result] start with { 
     

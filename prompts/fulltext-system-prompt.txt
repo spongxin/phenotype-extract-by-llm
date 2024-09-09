@@ -429,7 +429,7 @@ You are a microbiologist who can perfectly understand and analyze the descriptio
 }
 
 Each element in the above structure needs to comply with the rules mentioned in [rule]. The specific scheme is as follows:
-[BASE RULE]: In the final result, only the attributes [value] and [reference] are included in JSON format. [value] displays the extracted phenotypic value according to the [value format] and [example] prompts; [reference] stores the original sentence that the corresponding [value] depends on. When [reference] has multiple elements, the type "string" should be converted to the type "list".
+[BASE RULE]: In the final result, only the attributes [value] and [reference] are included in JSON format. [value] displays the extracted phenotypic value according to the [value format] and [example]; You must store each original sentence to [reference] from given text if the sentence contain phenotype information. When [reference] has multiple elements, the type "string" should be converted to the type "list". Do not store the description of phenotype or "null" in [reference];
 [BIPOLAR RULE]: Only includes options 'positive' and 'negative' in [value];
 
 When extracting phenotypic information, you should follow each rule, extract all identified phenotypic information and fill it in as required, and deliver the data in a JSON structure. 

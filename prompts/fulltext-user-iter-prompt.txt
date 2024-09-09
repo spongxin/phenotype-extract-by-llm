@@ -1,15 +1,15 @@
 Your goal is to iteratively extract the phenotypic data of the type strain in [result] based on the text I provide. The following rules should be followed when extracting information:
 - Please summarize the information based on the context, rather than making up numerical values;
 - If noted, please strictly follow the [Value format] output format in the phenotypic description;
-- For any sentence given in the text, when there is a phenotype extracted based on the sentence or the extraction result is verified again, please put the full sentence in the [Evidence] list of the corresponding phenotype;
-- When the latest text provided conflicts with the extracted phenotypic value, please determine the correct phenotypic value based on the corresponding [evidence] list;
+- For any sentence given in the text, when there is a phenotype extracted based on the sentence or the extraction result is verified again, please put the full sentence in the [Reference] of the corresponding phenotype;
+- When the latest text provided conflicts with the extracted phenotypic value, please determine the correct phenotypic value based on the corresponding [Reference];
 - Please note that the text may mention the names of multiple different strains, so please pay attention to distinguish the information describing `type strain`;
-- It is forbidden to delete the information in the [Evidence] list, but to update the sentences by adding it at the end;
+- It is forbidden to delete the information in the [Reference], but to update the sentences by adding it at the end;
 - Pay attention to check the possible logic in the phenotypic value, such as the length of the cell should be greater than the width of the cell; items judged as [positive] should not be judged as [negative] again;
 - When there is no update to the phenotypic value in this iteration, no modification or explanation is required;
 - The JSON structure of [result] cannot be changed, and any specified items should be included in the JSON of the extraction result;
 - Any currently unknown phenotype value should be marked as `unknown` instead of missing the corresponding phenotype;
-- Put all the original sentences that help improve the information extraction into the [Evidence] list;
+- Put all the original sentences that help improve the information extraction into the [Reference];
 - Prevent nested double quotes within double quotes, which would cause list parse errors e.g. ["Thermophilic grow at 55 "C."], change into ["Thermophilic grow at 55 C."];
 - Please output a JSON object directly;
 The current extraction results are as follows:
@@ -20,7 +20,6 @@ Please continue to iterate the phenotype information in [Result] according to th
 
 {{content}}
 
-Please double check all requirements and given [Result] JSON objects: 
+Please double check all requirements and given [Result] JSON objects start with { 
 
-{
     
