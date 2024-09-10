@@ -1,16 +1,6 @@
-from typing import Union
-import json
-import re
 import os
 
     
-def extract_json_data(query: str) -> Union[dict, str]:
-    try:
-        json_data = re.search(r'{.*}', query, re.DOTALL).group()
-        return json.loads(json_data)
-    except Exception as e:
-        return f"The following error occurred when extracting JSON Data from your output:\n {e}"
-
 class LocalClient:
     def __init__(self, config: dict):
         from openai import OpenAI
