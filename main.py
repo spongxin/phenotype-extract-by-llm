@@ -79,15 +79,29 @@ def extract(filename: str, **kwargs):
         ]
         # Iterating
         for idx, paragraph in enumerate(paragraphs):
+            extracted = ""
+            fix_time = 0
             content = prompts.get('fulltext-user-iter-prompt').replace("{{current_result}}", str(frames[-1])).replace("{{content}}", paragraph)
-            chats[-1] = {"role": "user", "content": content}
-            logger.info(f"extracting {idx + 1}th content of {doc.name} at {datetime.datetime.now()}")
-            if args.debug:
-                logger.debug(f"request content: \n{chats[-1]}\n")
+            while type(extracted) != dict:
+                chats[-1] = {"role": "user", "content": content}
+                logger.info(f"extracting {idx + 1}th content of {doc.name} at {datetime.datetime.now()}")
+                if args.debug:
+                    logger.debug(f"request content: \n{chats[-1]}\n")
 
-            resp = llm_client.chat(messages=chats, **config['chat'])
-            frames.append(resp.choices[0].message.content)
-            logger.info(f"extracted {idx + 1}th content of {doc.name} at {datetime.datetime.now()}")
+                resp = llm_client.chat(messages=chats, **config['chat'])
+                logger.info(f"extracted {idx + 1}th content of {doc.name} at {datetime.datetime.now()}")
+                # verify json format
+                extracted = client.extract_json_data(resp.choices[0].message.content)
+                if type(extracted) == str:
+                    logger.warning(f"error occured when extracting json format from {idx + 1}th content of {doc.name} because of: " + extracted)
+                    if fix_time >= int(config['settings']['max_fix_time']):
+                        logger.error(f"failed to fix json format from {doc.name} after max_fix_time at {datetime.datetime.now()}")
+                        return
+                    fix_time += 1
+                    content = prompts.get('fulltext-user-fix-prompt').replace("{{current_result}}", str(resp.choices[0].message.content)).replace("{{error_message}}", extracted).replace("{{content}}", paragraph)
+                else:
+                    logger.info(f"extracted {idx + 1}th content of {doc.name} at {datetime.datetime.now()}")
+            frames.append(extracted)
             if args.debug:
                 logger.debug(f"lastest result: \n{frames[-1]}\n")
                 input("Press `Enter` to continue...")
@@ -96,42 +110,36 @@ def extract(filename: str, **kwargs):
             chats[-1] = {"role": "user", "content": prompts.get('fulltext-user-finetune-prompt').replace("{{current_result}}", str(frames[-1]))}
             logger.info(f"{rf + 1}th reflecting {doc.name} at {datetime.datetime.now()}")
             resp = llm_client.chat(messages=chats, **config['chat'])
-            frames.append(resp.choices[0].message.content)
-            logger.info(f"{rf + 1}th reflected {doc.name} at {datetime.datetime.now()}")
+            extracted = client.extract_json_data(resp.choices[0].message.content)
+            logger.info(f"[State: {type(extracted) == dict}]{rf + 1}th reflected {doc.name} at {datetime.datetime.now()}")
+            # do not fix json format
+            if type(extracted) == str:
+                extracted = frames[-1]
+            elif type(extracted) == dict:
+                frames.append(extracted)
+            
             if args.debug:
                 logger.debug(f"lastest result: \n{frames[-1]}\n")
                 input("Press `Enter` to continue...")
-        # Extract json data
-        extracted = client.extract_json_data(frames[-1])
-        fix_time = 0
-        while type(extracted) == str and fix_time <= int(config['settings']['max_fix_time']):
-            logger.error(extracted)
-            chats[-1] = {"role": "user", "content": prompts.get('fulltext-user-fix-prompt').replace("{{current_result}}", str(frames[-1])).replace("{{error_message}}", extracted)}
-            resp = llm_client.chat(messages=chats, **config['chat'])
-            frames.append(resp.choices[0].message.content)
-            extracted = client.extract_json_data(frames[-1])
-            if args.debug:
-                logger.debug(f"lastest result: \n{frames[-1]}\n")
-                input("Press `Enter` to continue...")
-            fix_time += 1
+        
         # Save history
         with open(os.path.join(history_dir, doc.name+'.txt'), "w", encoding='utf-8') as f:
             f.write("\n\n".join(frames))
-        logger.info(f"saved history to {os.path.join(output_dir, doc.name+'.txt')}")
+        logger.info(f"saved history to {os.path.join(history_dir, doc.name+'.txt')}")
         # Save output
         if type(extracted) == dict:
             with open(os.path.join(output_dir, doc.name+'.json'), "w", encoding='utf-8') as f:
                 f.write(json.dumps(extracted, indent=4))
             logger.info(f"saved json output to {os.path.join(output_dir, doc.name+'.json')}")
         else:
-            logger.warning(f"failed parse json from {doc.name}, see history for details at {os.path.join(history_dir, filename+'.pkl')}.")
+            logger.warning(f"failed parse json from {doc.name}, see history for details at {os.path.join(history_dir, doc.name+'.txt')}.")
         
     except Exception as e:
         logger.error(f"error occured when processing {filename}: \n{e}")
         if len(frames) > 1:
             with open(os.path.join(history_dir, doc.name+'.txt'), "w", encoding='utf-8') as f:
                 f.write("\n\n".join(frames))
-            logger.info(f"saved history to {os.path.join(output_dir, doc.name+'.txt')}")
+            logger.info(f"saved history to {os.path.join(history_dir, doc.name+'.txt')}")
         if args.debug:
             input("Press `Enter` to continue...")
         
@@ -140,12 +148,11 @@ def assign_tasks():
     if single_file:
         extract(input_path)
         return
-    
 
     assert len(filenames) > 0
     pbar = tqdm(total=len(filenames), desc="processing tasks")
     update = lambda *args: pbar.update()
-    with ThreadPoolExecutor(max_workers=config['settings']['thread_number']) as pool:
+    with ThreadPoolExecutor(max_workers=int(config['settings']['thread_number'])) as pool:
         for _, filename in enumerate(filenames):
             pool.submit(extract, os.path.join(input_path, filename)).add_done_callback(update)
             extract(filename)
@@ -158,6 +165,6 @@ if __name__ == '__main__':
         logger.setLevel(level=logging.DEBUG)
     else:
         logging.basicConfig(filename='.log', level=logging.INFO)
-        logger.setLevel(logging.INFO if args.verbose else logging.ERROR)
+        logger.setLevel(logging.INFO if bool(config['settings']['verbose']) else logging.ERROR)
 
     assign_tasks()
