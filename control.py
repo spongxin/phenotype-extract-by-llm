@@ -1,5 +1,8 @@
 from rapidfuzz import process, fuzz, utils
+from typing import Union
+import json
 import os
+import re
 
 
 class ItemsControl:
@@ -47,3 +50,11 @@ class ItemsControl:
         """
         candidates = [process.extractOne(item, control_list, scorer=fuzz.WRatio, processor=utils.default_process) for item in items]
         return candidates
+
+
+def extract_json_data(query: str) -> Union[dict, str]:
+    try:
+        json_data = re.search(r'{.*}', query, re.DOTALL).group()
+        return json.loads(json_data)
+    except Exception as e:
+        return f"The following error occurred when extracting JSON Data from your output:\n {e}"

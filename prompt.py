@@ -8,7 +8,7 @@ class Prompt:
         """
         self.path = path
         if not os.path.exists(path):
-            raise ValueError(f"File {path} does not exist")
+            raise ValueError(f"Dir {path} does not exist")
         self._load_prompt()
     
     def _load_prompt(self) -> dict:
