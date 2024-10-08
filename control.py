@@ -503,8 +503,8 @@ class Biosafety(BaseModel):
     )
     evidence: Evidence
 
-class Phenotype(BaseModel):
-    """表型信息"""
+class DefaultPhenotype(BaseModel):
+    """基础表型信息"""
     strain_designations: list[str] = Field(
         default_factory=list,
         description="Type strain's name according to the International Nomenclature of Microorganisms.",
@@ -531,4 +531,26 @@ class Phenotype(BaseModel):
     enzymology: Enzymology
     biochemical: Biochemical
     biosafety: Biosafety
+    evidence: Evidence
+
+class PathogenicPhenotype(BaseModel):
+    """致病表型信息"""
+    strain_designations: list[str] = Field(
+        default_factory=list,
+        description="Type strain's name according to the International Nomenclature of Microorganisms.",
+        examples=[["YIT 11304T", "DSM 16506T", "NCIMB 13994T", "VKM B-2757T", "BCRC 17990T", "JCM 15121T"], ],
+    )
+    scientific_name: str | None = Field(
+        description="The scientific name of the microorganism. genus name + species name, a blank between genus name and species name;",
+        examples=["Zeaxanthinibacter enoshimensis"],
+    )
+    species: str | None = Field(
+        description="The species name of the microorganism (Type Strain's).",
+        examples=["enoshimensis"],
+    )
+    type_strain: bool | None = Field(
+        description="wheather the strain `strain_designation` is a type strain.",
+        examples=[True, False],
+    )
+    # TODO: Add pathogenicity related phenotypes
     evidence: Evidence
